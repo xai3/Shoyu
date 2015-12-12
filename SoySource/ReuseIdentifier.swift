@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ReuseIdentifier.swift
 //  SoySource
 //
 //  Created by asai.yuki on 2015/12/12.
@@ -8,8 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
+class ReuseIdentifier<T> {
+    let value: String
+    
+    init(string: String) {
+        value = string
     }
 }

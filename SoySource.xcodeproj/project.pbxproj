@@ -14,6 +14,12 @@
 		46A77B5D1C1B49FB002618EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46A77B5B1C1B49FB002618EF /* LaunchScreen.storyboard */; };
 		46A77B681C1B49FB002618EF /* SoySourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A77B671C1B49FB002618EF /* SoySourceTests.swift */; };
 		46A77B731C1B49FB002618EF /* SoySourceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A77B721C1B49FB002618EF /* SoySourceUITests.swift */; };
+		46A77B811C1B4A08002618EF /* SoySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A77B801C1B4A08002618EF /* SoySource.swift */; };
+		46A77B831C1B51D0002618EF /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A77B821C1B51D0002618EF /* TableViewController.swift */; };
+		46B173691C1BDF9A0048AF06 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B173681C1BDF9A0048AF06 /* Section.swift */; };
+		46B1736B1C1BDFA00048AF06 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B1736A1C1BDFA00048AF06 /* Row.swift */; };
+		46B1736D1C1BDFD60048AF06 /* UITableView+SoySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */; };
+		46B1736F1C1BDFF90048AF06 /* ReuseIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +53,12 @@
 		46A77B6E1C1B49FB002618EF /* SoySourceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoySourceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A77B721C1B49FB002618EF /* SoySourceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoySourceUITests.swift; sourceTree = "<group>"; };
 		46A77B741C1B49FB002618EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46A77B801C1B4A08002618EF /* SoySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoySource.swift; sourceTree = "<group>"; };
+		46A77B821C1B51D0002618EF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		46B173681C1BDF9A0048AF06 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		46B1736A1C1BDFA00048AF06 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
+		46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+SoySource.swift"; sourceTree = "<group>"; };
+		46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReuseIdentifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +111,16 @@
 			children = (
 				46A77B521C1B49FA002618EF /* AppDelegate.swift */,
 				46A77B541C1B49FA002618EF /* ViewController.swift */,
+				46A77B821C1B51D0002618EF /* TableViewController.swift */,
 				46A77B561C1B49FA002618EF /* Main.storyboard */,
 				46A77B591C1B49FB002618EF /* Assets.xcassets */,
 				46A77B5B1C1B49FB002618EF /* LaunchScreen.storyboard */,
 				46A77B5E1C1B49FB002618EF /* Info.plist */,
+				46A77B801C1B4A08002618EF /* SoySource.swift */,
+				46B173681C1BDF9A0048AF06 /* Section.swift */,
+				46B1736A1C1BDFA00048AF06 /* Row.swift */,
+				46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */,
+				46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */,
 			);
 			path = SoySource;
 			sourceTree = "<group>";
@@ -256,8 +274,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46B173691C1BDF9A0048AF06 /* Section.swift in Sources */,
 				46A77B551C1B49FA002618EF /* ViewController.swift in Sources */,
+				46A77B811C1B4A08002618EF /* SoySource.swift in Sources */,
 				46A77B531C1B49FA002618EF /* AppDelegate.swift in Sources */,
+				46B1736B1C1BDFA00048AF06 /* Row.swift in Sources */,
+				46B1736D1C1BDFD60048AF06 /* UITableView+SoySource.swift in Sources */,
+				46A77B831C1B51D0002618EF /* TableViewController.swift in Sources */,
+				46B1736F1C1BDFF90048AF06 /* ReuseIdentifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +508,7 @@
 				46A77B791C1B49FB002618EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46A77B7A1C1B49FB002618EF /* Build configuration list for PBXNativeTarget "SoySourceTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +517,7 @@
 				46A77B7C1C1B49FB002618EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46A77B7D1C1B49FB002618EF /* Build configuration list for PBXNativeTarget "SoySourceUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +526,7 @@
 				46A77B7F1C1B49FB002618EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
