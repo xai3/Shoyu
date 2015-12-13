@@ -10,8 +10,8 @@ import UIKit
 
 protocol SectionType {
     var rows: [RowType] { get }
-    var header: SectionHeaderType { get }
-    var footer: SectionHeaderType { get }
+    var header: SectionHeaderFooterType? { get }
+    var footer: SectionHeaderFooterType? { get }
     
     func configureHeader(view: UIView, section: Int)
     func configureFooter(view: UIView, section: Int)
@@ -22,11 +22,9 @@ protocol SectionType {
 typealias PlainSection = Section<UIView, UIView>
 
 class Section<HeaderType: UIView, FooterType: UIView> {
-    
-    // MARK: Private
-    private var _rows = [RowType]()
-    private var _header = SectionHeader<HeaderType>()
-    private var _footer = SectionHeader<FooterType>()
+    var rows: [RowType] = []
+    var header: SectionHeaderFooterType?
+    var footer: SectionHeaderFooterType?
     
     // MARK: Configurer
     var configureHeader: ((HeaderType, Int) -> Void)?
@@ -43,12 +41,12 @@ class Section<HeaderType: UIView, FooterType: UIView> {
 
 extension Section {
     func addRow(row: RowType) -> Self {
-        _rows.append(row)
+        rows.append(row)
         return self
     }
     
     func addRows(rows: [RowType]) -> Self {
-        _rows.appendContentsOf(rows)
+        self.rows.appendContentsOf(rows)
         return self
     }
     
@@ -67,12 +65,23 @@ extension Section {
     func createRows<T>(count: UInt, @noescape clousure: ((UInt, Row<T>) -> Void)) -> Self {
         return createRows([UInt](0..<count), clousure: clousure)
     }
+    
+    func createHeader(@noescape clousure: (SectionHeaderFooter<HeaderType> -> Void)) -> Self {
+        header = SectionHeaderFooter<HeaderType>() {
+            clousure($0)
+        }
+        return self
+    }
+    
+    func createFooter(@noescape clousure: (SectionHeaderFooter<FooterType> -> Void)) -> Self {
+        footer = SectionHeaderFooter<FooterType>() {
+            clousure($0)
+        }
+        return self
+    }
 }
 
 extension Section: SectionType {
-    var rows: [RowType] { return _rows }
-    var header: SectionHeaderType { return _header }
-    var footer: SectionHeaderType { return _footer }
  
     func configureHeader(view: UIView, section: Int) {
         guard let headerView = view as? HeaderType else {
@@ -89,21 +98,27 @@ extension Section: SectionType {
     }
     
     func heightForHeader(section: Int) -> CGFloat? {
-        return configureHeaderHeight?(section) ?? header.height
+        return configureHeaderHeight?(section) ?? header?.height
     }
     
     func heightForFooter(section: Int) -> CGFloat? {
-        return configureFooterHeight?(section) ?? footer.height
+        return configureFooterHeight?(section) ?? footer?.height
     }
 }
 
-protocol SectionHeaderType {
+protocol SectionHeaderFooterType {
     var identifier: String { get }
     var height: CGFloat? { get set }
     var title: String? { get set }
 }
 
-class SectionHeader<Type: UIView>: SectionHeaderType {
+class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
+    init() { }
+    
+    init(@noescape clousure: (SectionHeaderFooter<Type> -> Void)) {
+        clousure(self)
+    }
+    
     var identifier: String {
         // TODO: Imp
         return "Header"

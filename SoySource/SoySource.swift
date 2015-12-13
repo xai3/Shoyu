@@ -68,7 +68,8 @@ extension SoySource: UITableViewDataSource {
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sec = sectionWith(section)
-        guard let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(sec.header.identifier) else {
+        guard let identifier = sec.header?.identifier,
+            let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             return nil
         }
         sec.configureHeader(view, section: section)
@@ -77,7 +78,8 @@ extension SoySource: UITableViewDataSource {
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let sec = sectionWith(section)
-        guard let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(sec.footer.identifier) else {
+        guard let identifier = sec.footer?.identifier,
+            let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) else {
             return nil
         }
         sec.configureFooter(view, section: section)
