@@ -21,7 +21,7 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.soySource = SoySource().createSection { section in
+        tableView.soySource = SoySource().createSection { (section: PlainSection) in
             section.createRows(members) { (member: Member, row: Row<DefaultTableViewCell>) in
                 row.height = 52
                 row.configureCell = configureMemberCell(member)

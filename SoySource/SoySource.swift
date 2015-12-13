@@ -9,7 +9,7 @@
 import UIKit
 
 class SoySource: NSObject {
-    internal var sections = [Section]()
+    internal var sections = [SectionType]()
     
     override init() {
         super.init()
@@ -20,24 +20,22 @@ class SoySource: NSObject {
         clousure(self)
     }
     
-    func addSection(section: Section) -> Self {
+    func addSection(section: SectionType) -> Self {
         sections.append(section)
         return self
     }
     
-    func createSection(@noescape clousure: (Section -> Void)) -> Self {
-        let section = Section()
-        clousure(section)
-        return addSection(section)
+    func createSection<H, F>(@noescape clousure: (Section<H, F> -> Void)) -> Self {
+        return addSection(Section<H, F>() { clousure($0) })
     }
 }
 
 extension SoySource {
-    func sectionWith(section: Int) -> Section {
+    func sectionWith(section: Int) -> SectionType {
         return sections[section]
     }
     
-    func sectionWith(indexPath: NSIndexPath) -> Section {
+    func sectionWith(indexPath: NSIndexPath) -> SectionType {
         return sectionWith(indexPath.section)
     }
     
@@ -49,6 +47,8 @@ extension SoySource {
         return rowWith(indexPath.section, row: indexPath.row)
     }
 }
+
+// MARK: - Table view data source
 
 extension SoySource: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -65,7 +65,27 @@ extension SoySource: UITableViewDataSource {
         row.configureCell(cell, indexPath: indexPath)
         return cell
     }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sec = sectionWith(section)
+        guard let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(sec.header.identifier) else {
+            return nil
+        }
+        sec.configureHeader(view, section: section)
+        return view
+    }
+    
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let sec = sectionWith(section)
+        guard let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(sec.footer.identifier) else {
+            return nil
+        }
+        sec.configureFooter(view, section: section)
+        return view
+    }
 }
+
+// MARK: - Table view delegate
 
 extension SoySource: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -75,6 +95,17 @@ extension SoySource: UITableViewDelegate {
         }
         return row.height
     }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let sec = sectionWith(section)
+        return sec.heightForHeader(section) ?? 0
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        let sec = sectionWith(section)
+        return sec.heightForFooter(section) ?? 0
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         rowWith(indexPath).didSelect(indexPath)
     }
