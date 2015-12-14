@@ -22,6 +22,12 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.soySource = SoySource().createSection { (section: PlainSection) in
+            section.createHeader { header in
+                header.height = 32
+            }
+            section.createFooter { footer in
+                footer.height = 52
+            }
             section.createRows(members) { (member: Member, row: Row<DefaultTableViewCell>) in
                 row.height = 52
                 row.configureCell = configureMemberCell(member)
