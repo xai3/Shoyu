@@ -90,7 +90,7 @@ extension SoySource: UITableViewDataSource {
             let view = dequeueReusableView(tableView, identifier: identifier) else {
                 return nil
         }
-        sec.configureHeader(view, section: section)
+        sec.header?.configureView(view, section: section)
         return view
     }
     
@@ -100,7 +100,7 @@ extension SoySource: UITableViewDataSource {
             let view = dequeueReusableView(tableView, identifier: identifier) else {
                 return nil
         }
-        sec.configureFooter(view, section: section)
+        sec.footer?.configureView(view, section: section)
         return view
     }
     
@@ -125,12 +125,12 @@ extension SoySource: UITableViewDelegate {
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sec = sectionWith(section)
-        return sec.heightForHeader(section) ?? 0
+        return sec.header?.heightFor(section) ?? sec.header?.height ?? 0
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let sec = sectionWith(section)
-        return sec.heightForFooter(section) ?? 0
+        return sec.footer?.heightFor(section) ?? sec.footer?.height ?? 0
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
