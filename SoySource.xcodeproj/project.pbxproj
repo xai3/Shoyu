@@ -53,12 +53,12 @@
 		46A77B6E1C1B49FB002618EF /* SoySourceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoySourceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A77B721C1B49FB002618EF /* SoySourceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoySourceUITests.swift; sourceTree = "<group>"; };
 		46A77B741C1B49FB002618EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		46A77B801C1B4A08002618EF /* SoySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoySource.swift; sourceTree = "<group>"; };
+		46A77B801C1B4A08002618EF /* SoySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoySource.swift; path = ../SoySource/SoySource.swift; sourceTree = "<group>"; };
 		46A77B821C1B51D0002618EF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		46B173681C1BDF9A0048AF06 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
-		46B1736A1C1BDFA00048AF06 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
-		46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+SoySource.swift"; sourceTree = "<group>"; };
-		46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReuseIdentifier.swift; sourceTree = "<group>"; };
+		46B173681C1BDF9A0048AF06 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Section.swift; path = ../SoySource/Section.swift; sourceTree = "<group>"; };
+		46B1736A1C1BDFA00048AF06 /* Row.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Row.swift; path = ../SoySource/Row.swift; sourceTree = "<group>"; };
+		46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+SoySource.swift"; path = "../SoySource/UITableView+SoySource.swift"; sourceTree = "<group>"; };
+		46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReuseIdentifier.swift; path = ../SoySource/ReuseIdentifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,9 +86,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		465EEFA91C1E4481007681E2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				46A77B801C1B4A08002618EF /* SoySource.swift */,
+				46B173681C1BDF9A0048AF06 /* Section.swift */,
+				46B1736A1C1BDFA00048AF06 /* Row.swift */,
+				46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */,
+				46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		46A77B461C1B49FA002618EF = {
 			isa = PBXGroup;
 			children = (
+				465EEFA91C1E4481007681E2 /* Classes */,
 				46A77B511C1B49FA002618EF /* SoySource */,
 				46A77B661C1B49FB002618EF /* SoySourceTests */,
 				46A77B711C1B49FB002618EF /* SoySourceUITests */,
@@ -116,11 +129,6 @@
 				46A77B591C1B49FB002618EF /* Assets.xcassets */,
 				46A77B5B1C1B49FB002618EF /* LaunchScreen.storyboard */,
 				46A77B5E1C1B49FB002618EF /* Info.plist */,
-				46A77B801C1B4A08002618EF /* SoySource.swift */,
-				46B173681C1BDF9A0048AF06 /* Section.swift */,
-				46B1736A1C1BDFA00048AF06 /* Row.swift */,
-				46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */,
-				46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */,
 			);
 			path = SoySource;
 			sourceTree = "<group>";
