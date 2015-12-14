@@ -54,33 +54,33 @@ class Row<T: UITableViewCell>: RowType {
 }
 
 extension Row {
-    func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    internal func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         configureCell?(genericCell, indexPath)
     }
     
-    func heightFor(indexPath: NSIndexPath) -> CGFloat? {
+    internal func heightFor(indexPath: NSIndexPath) -> CGFloat? {
         return heightFor?(indexPath) ?? height
     }
     
-    func didSelect(indexPath: NSIndexPath) {
+    internal func didSelect(indexPath: NSIndexPath) {
         didSelect?(indexPath)
     }
     
-    func didDeselect(indexPath: NSIndexPath) {
+    internal func didDeselect(indexPath: NSIndexPath) {
         didDeselect?(indexPath)
     }
     
-    func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    internal func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         willDisplayCell?(genericCell, indexPath)
     }
     
-    func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    internal func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }

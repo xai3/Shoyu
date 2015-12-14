@@ -47,19 +47,21 @@ class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     var configureView: ((Type, Int) -> Void)?
     var heightFor: (Int -> CGFloat?)?
     var createView: (Int -> Type?)?
-    
-    func configureView(view: UIView, section: Int) {
+}
+
+extension SectionHeaderFooter {
+    internal func configureView(view: UIView, section: Int) {
         guard let genericView = view as? Type else {
             fatalError()
         }
         configureView?(genericView, section)
     }
     
-    func heightFor(section: Int) -> CGFloat? {
+    internal func heightFor(section: Int) -> CGFloat? {
         return heightFor?(section) ?? height
     }
     
-    func viewFor(section: Int) -> UIView? {
+    internal func viewFor(section: Int) -> UIView? {
         return createView?(section)
     }
 }
