@@ -152,5 +152,17 @@ extension SoySource: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         rowWith(indexPath).didSelect(indexPath)
     }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        rowWith(indexPath).didDeselect(indexPath)
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        rowWith(indexPath).willDisplayCell(cell, indexPath: indexPath)
+    }
+    
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        rowWith(indexPath).didEndDisplayCell(cell, indexPath: indexPath)
+    }
 }
 
