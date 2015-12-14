@@ -30,7 +30,11 @@ class TableViewController: UIViewController {
                 }
             }
             section.createFooter { footer in
-                footer.reuseIdentifier = "Footer"
+                footer.createView = { _ in
+                    let view = UIView()
+                    view.backgroundColor = UIColor.orangeColor()
+                    return view
+                }
                 footer.height = 52
             }
             section.createRows(members) { (member: Member, row: Row<DefaultTableViewCell>) in
