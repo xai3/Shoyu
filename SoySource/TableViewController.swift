@@ -43,7 +43,7 @@ class TableViewController: UIViewController {
                 row.didSelect = didSelectMember(member)
             }
             section.createRows(5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
-                row.configureHeight = { _ -> CGFloat? in
+                row.heightFor = { _ -> CGFloat? in
                     return 44
                 }
                 row.configureCell = configureCountCell(index)

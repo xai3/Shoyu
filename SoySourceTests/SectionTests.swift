@@ -133,12 +133,12 @@ class SectionTests: XCTestCase {
         
         // Configure height
         section.createHeader { header in
-            header.configureHeight = { _ -> CGFloat? in
+            header.heightFor = { _ -> CGFloat? in
                 return 20
             }
         }
         section.createFooter { footer in
-            footer.configureHeight = { _ -> CGFloat? in
+            footer.heightFor = { _ -> CGFloat? in
                 return 21
             }
         }
@@ -148,13 +148,13 @@ class SectionTests: XCTestCase {
         // Configure nil height
         section.createHeader { header in
             header.height = 30
-            header.configureHeight = { _ -> CGFloat? in
+            header.heightFor = { _ -> CGFloat? in
                 return nil
             }
         }
         section.createFooter { footer in
             footer.height = 31
-            footer.configureHeight = { _ -> CGFloat? in
+            footer.heightFor = { _ -> CGFloat? in
                 return nil
             }
         }
