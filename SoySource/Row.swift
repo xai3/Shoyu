@@ -10,7 +10,7 @@ import UIKit
 
 protocol RowType {
     var reuseIdentifier: String { get set }
-    var height: CGFloat { get }
+    var height: CGFloat? { get }
     
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath)
     func heightFor(indexPath: NSIndexPath) -> CGFloat?
@@ -50,7 +50,7 @@ class Row<T: UITableViewCell>: RowType {
         }
     }
     
-    var height: CGFloat = 0
+    var height: CGFloat?
 }
 
 extension Row {

@@ -136,17 +136,17 @@ extension SoySource: UITableViewDataSource {
 extension SoySource: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let row = rowWith(indexPath)
-        return row.height ?? 0
+        return row.heightFor(indexPath) ?? row.height ?? tableView.rowHeight
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sec = sectionWith(section)
-        return sec.header?.heightFor(section) ?? sec.header?.height ?? 0
+        return sec.header?.heightFor(section) ?? sec.header?.height ?? tableView.sectionHeaderHeight
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let sec = sectionWith(section)
-        return sec.footer?.heightFor(section) ?? sec.footer?.height ?? 0
+        return sec.footer?.heightFor(section) ?? sec.footer?.height ?? tableView.sectionFooterHeight
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
