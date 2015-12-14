@@ -79,29 +79,29 @@ extension SoySource: UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = rowWith(indexPath)
-        let cell = tableView.dequeueReusableCellWithIdentifier(row.cellIdentifier, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(row.reuseIdentifier, forIndexPath: indexPath)
         row.configureCell(cell, indexPath: indexPath)
         return cell
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sec = sectionWith(section)
-        guard let identifier = sec.header?.identifier,
-            let view = dequeueReusableView(tableView, identifier: identifier) else {
-                return nil
+        if let identifier = sec.header?.reuseIdentifier,
+            let view = dequeueReusableView(tableView, identifier: identifier) {
+                sec.header?.configureView(view, section: section)
+                return view
         }
-        sec.header?.configureView(view, section: section)
-        return view
+        return nil
     }
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let sec = sectionWith(section)
-        guard let identifier = sec.footer?.identifier,
-            let view = dequeueReusableView(tableView, identifier: identifier) else {
-                return nil
+        if let identifier = sec.footer?.reuseIdentifier,
+            let view = dequeueReusableView(tableView, identifier: identifier) {
+                sec.footer?.configureView(view, section: section)
+                return view
         }
-        sec.footer?.configureView(view, section: section)
-        return view
+        return nil
     }
     
     private func dequeueReusableView(tableView: UITableView, identifier: String) -> UIView? {

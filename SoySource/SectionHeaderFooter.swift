@@ -9,12 +9,13 @@
 import UIKit
 
 protocol SectionHeaderFooterType {
-    var identifier: String { get }
+    var reuseIdentifier: String? { get }
     var height: CGFloat? { get set }
     var title: String? { get set }
     
     func configureView(view: UIView, section: Int)
     func heightFor(section: Int) -> CGFloat?
+    func viewFor(section: Int) -> UIView?
 }
 
 class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
@@ -24,9 +25,20 @@ class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
         clousure(self)
     }
     
-    var identifier: String {
-        // TODO: Imp
-        return "Header"
+    private var _reuseIdentifier: String?
+    var reuseIdentifier: String? {
+        set {
+            _reuseIdentifier = newValue
+        }
+        get {
+            if let identifier = _reuseIdentifier {
+                return identifier
+            }
+            if let identifier = Type() as? ReuseIdentifierType {
+                return identifier.identifier
+            }
+            return nil
+        }
     }
     
     var height: CGFloat?

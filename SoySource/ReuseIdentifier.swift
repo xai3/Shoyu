@@ -8,10 +8,14 @@
 
 import UIKit
 
-class ReuseIdentifier<T> {
-    let value: String
-    
-    init(string: String) {
-        value = string
+protocol ReuseIdentifierType {
+    var identifier: String { get }
+}
+
+extension ReuseIdentifierType {
+    var identifier: String {
+        return String(self.dynamicType).componentsSeparatedByString(".").last ?? ""
     }
 }
+
+extension UITableViewCell: ReuseIdentifierType { }
