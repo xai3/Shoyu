@@ -69,12 +69,14 @@ extension Section {
     func createHeader(@noescape clousure: (SectionHeaderFooter<HeaderType> -> Void)) -> Self {
         return createHaederFooter { (header: SectionHeaderFooter<HeaderType>) in
             self.header = header
+            clousure(header)
         }
     }
     
     func createFooter(@noescape clousure: (SectionHeaderFooter<FooterType> -> Void)) -> Self {
         return createHaederFooter { (footer: SectionHeaderFooter<FooterType>) in
             self.footer = footer
+            clousure(footer)
         }
     }
     
