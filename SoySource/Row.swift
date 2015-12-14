@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RowType {
-    var cellIdentifier: String { get }
+    var reuseIdentifier: String { get set }
     var height: CGFloat { get }
     
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath)
@@ -28,9 +28,20 @@ class Row<T: UITableViewCell>: RowType {
     var configureHeight: (NSIndexPath -> CGFloat?)?
     var didSelect: (NSIndexPath -> Void)?
     
-    var cellIdentifier: String {
-        // TODO: Imp
-        return "Cell"
+    private var _reuseIdentifier: String?
+    var reuseIdentifier: String {
+        set {
+            _reuseIdentifier = newValue
+        }
+        get {
+            if let identifier = _reuseIdentifier {
+                return identifier
+            }
+            if let identifier = T() as? ReuseIdentifierType {
+                return identifier.identifier
+            }
+            fatalError()
+        }
     }
     
     var height: CGFloat = 0

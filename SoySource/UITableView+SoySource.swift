@@ -25,10 +25,3 @@ extension UITableView {
         }
     }
 }
-
-extension UITableView {
-    func dequeueReusableCellWithIdentifier<T>(identifier: ReuseIdentifier<T>, forIndexPath indexPath: NSIndexPath) -> T? {
-        return dequeueReusableCellWithIdentifier(identifier.value, forIndexPath: indexPath) as? T
-    }
-}
-

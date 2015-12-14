@@ -75,7 +75,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="62" id="bPZ-RK-Mn4" customClass="DefaultTableViewCell" customModule="SoySource" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DefaultTableViewCell" rowHeight="62" id="bPZ-RK-Mn4" customClass="DefaultTableViewCell" customModule="SoySource" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="320" height="62"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bPZ-RK-Mn4" id="f10-dc-rCW">
@@ -119,6 +119,27 @@
                                             <constraints>
                                                 <constraint firstItem="E4v-Jc-jMZ" firstAttribute="leading" secondItem="oZh-UC-GT0" secondAttribute="leading" constant="15" id="Kds-2R-5Dh"/>
                                                 <constraint firstItem="E4v-Jc-jMZ" firstAttribute="centerY" secondItem="oZh-UC-GT0" secondAttribute="centerY" id="y24-CI-STt"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Footer" rowHeight="38" id="QEu-1h-kwL">
+                                        <rect key="frame" x="0.0" y="192" width="320" height="38"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QEu-1h-kwL" id="YkE-Xg-GVk">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="37.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Footer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yd-ps-hcm">
+                                                    <rect key="frame" x="15" y="8.5" width="56" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="8yd-ps-hcm" firstAttribute="centerY" secondItem="YkE-Xg-GVk" secondAttribute="centerY" id="Gpv-wI-AYW"/>
+                                                <constraint firstItem="8yd-ps-hcm" firstAttribute="leading" secondItem="YkE-Xg-GVk" secondAttribute="leading" constant="15" id="hYB-mv-cPw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

@@ -23,12 +23,14 @@ class TableViewController: UIViewController {
         super.viewDidLoad()
         tableView.soySource = SoySource().createSection { (section: PlainSection) in
             section.createHeader { header in
+                header.reuseIdentifier = "Header"
                 header.height = 32
                 header.configureView = { view, _ in
                     view.backgroundColor = UIColor.blueColor()
                 }
             }
             section.createFooter { footer in
+                footer.reuseIdentifier = "Footer"
                 footer.height = 52
             }
             section.createRows(members) { (member: Member, row: Row<DefaultTableViewCell>) in
