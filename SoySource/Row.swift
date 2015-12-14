@@ -70,7 +70,7 @@ extension Row {
     }
     
     func didDeselect(indexPath: NSIndexPath) {
-        didDeselect(indexPath)
+        didDeselect?(indexPath)
     }
     
     func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
