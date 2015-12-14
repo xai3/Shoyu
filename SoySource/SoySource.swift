@@ -25,9 +25,27 @@ class SoySource: NSObject {
         return self
     }
     
+    func addSections(sections: [SectionType]) -> Self {
+        self.sections.appendContentsOf(sections)
+        return self
+    }
+    
     func createSection<H, F>(@noescape clousure: (Section<H, F> -> Void)) -> Self {
         return addSection(Section<H, F>() { clousure($0) })
     }
+    
+    func createSections<H, F, E>(elements: [E], @noescape clousure: ((E, Section<H, F>) -> Void)) -> Self {
+        return addSections(
+            elements.map { element -> Section<H, F> in
+                return Section<H, F>() { clousure(element, $0) }
+                }.map { $0 as SectionType }
+        )
+    }
+    
+    func createSections<H, F>(count: UInt, @noescape clousure: ((UInt, Section<H, F>) -> Void)) -> Self {
+        return createSections([UInt](0..<count), clousure: clousure)
+    }
+    
 }
 
 extension SoySource {
