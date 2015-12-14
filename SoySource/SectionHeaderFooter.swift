@@ -45,7 +45,7 @@ class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     var title: String?
     
     var configureView: ((Type, Int) -> Void)?
-    var configureHeight: (Int -> CGFloat?)?
+    var heightFor: (Int -> CGFloat?)?
     var createView: (Int -> Type?)?
     
     func configureView(view: UIView, section: Int) {
@@ -56,7 +56,7 @@ class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     }
     
     func heightFor(section: Int) -> CGFloat? {
-        return configureHeight?(section) ?? height
+        return heightFor?(section) ?? height
     }
     
     func viewFor(section: Int) -> UIView? {

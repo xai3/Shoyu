@@ -28,7 +28,7 @@ class Row<T: UITableViewCell>: RowType {
     }
     
     var configureCell: ((T, NSIndexPath) -> Void)?
-    var configureHeight: (NSIndexPath -> CGFloat?)?
+    var heightFor: (NSIndexPath -> CGFloat?)?
     var didSelect: (NSIndexPath -> Void)?
     var didDeselect: (NSIndexPath -> Void)?
     var willDisplayCell: ((T, NSIndexPath) -> Void)?
@@ -62,7 +62,7 @@ extension Row {
     }
     
     func heightFor(indexPath: NSIndexPath) -> CGFloat? {
-        return configureHeight?(indexPath) ?? height
+        return heightFor?(indexPath) ?? height
     }
     
     func didSelect(indexPath: NSIndexPath) {

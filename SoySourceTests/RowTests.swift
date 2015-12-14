@@ -34,7 +34,7 @@ class RowTests: XCTestCase {
         XCTAssert(called)
     }
     
-    func testConfigureHeight() {
+    func testheightFor() {
         let row = Row()
         
         // Initialezed
@@ -45,7 +45,7 @@ class RowTests: XCTestCase {
         XCTAssertEqual(row.heightFor(NSIndexPath()), 5)
         
         // Configure
-        row.configureHeight = { _ -> CGFloat? in
+        row.heightFor = { _ -> CGFloat? in
             return 10
         }
         let height = row.heightFor(NSIndexPath())
