@@ -114,5 +114,43 @@ class SectionTests: XCTestCase {
         XCTAssertNotNil(section.footer)
     }
     
+    func testConfigureHeaderFooterHeight() {
+        let section = Section()
+        
+        // Initialized
+        XCTAssertEqual(section.heightForHeader(0), nil)
+        XCTAssertEqual(section.heightForFooter(0), nil)
+        
+        // Constant
+        section.createHeader { header in
+            header.height = 10
+        }
+        section.createFooter { footer in
+            footer.height = 11
+        }
+        XCTAssertEqual(section.heightForHeader(0), 10)
+        XCTAssertEqual(section.heightForFooter(0), 11)
+        
+        // Configure height
+        section.configureHeaderHeight = { _ -> CGFloat? in
+            return 20
+        }
+        section.configureFooterHeight = { _ -> CGFloat? in
+            return 21
+        }
+        XCTAssertEqual(section.heightForHeader(0), 20)
+        XCTAssertEqual(section.heightForFooter(0), 21)
+        
+        // Configure nil height
+        section.configureHeaderHeight = { _ -> CGFloat? in
+            return nil
+        }
+        section.configureFooterHeight = { _ -> CGFloat? in
+            return nil
+        }
+        XCTAssertEqual(section.heightForHeader(0), 10)
+        XCTAssertEqual(section.heightForFooter(0), 11)
+    }
+    
 }
 
