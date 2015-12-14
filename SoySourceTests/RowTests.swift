@@ -38,7 +38,7 @@ class RowTests: XCTestCase {
         let row = Row()
         
         // Initialezed
-        XCTAssertEqual(row.heightFor(NSIndexPath()), 0)
+        XCTAssertEqual(row.heightFor(NSIndexPath()), nil)
         
         // Constant
         row.height = 5
