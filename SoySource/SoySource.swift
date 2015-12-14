@@ -92,10 +92,7 @@ extension SoySource: UITableViewDataSource {
 extension SoySource: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let row = rowWith(indexPath)
-        if let height = row.heightFor(indexPath) {
-            return height
-        }
-        return row.height
+        return row.height ?? 0
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
