@@ -43,7 +43,7 @@ class Row<T: UITableViewCell>: RowType {
     }
     
     func heightFor(indexPath: NSIndexPath) -> CGFloat? {
-        return configureHeight?(indexPath)
+        return configureHeight?(indexPath) ?? height
     }
     
     func didSelect(indexPath: NSIndexPath) {

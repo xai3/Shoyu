@@ -13,6 +13,7 @@
 		465EEFAE1C1E4C72007681E2 /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B1736A1C1BDFA00048AF06 /* Row.swift */; };
 		465EEFAF1C1E4C72007681E2 /* ReuseIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B1736E1C1BDFF90048AF06 /* ReuseIdentifier.swift */; };
 		465EEFB01C1E4C72007681E2 /* UITableView+SoySource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B1736C1C1BDFD60048AF06 /* UITableView+SoySource.swift */; };
+		465EEFB21C1E575C007681E2 /* RowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465EEFB11C1E575C007681E2 /* RowTests.swift */; };
 		46A77B531C1B49FA002618EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A77B521C1B49FA002618EF /* AppDelegate.swift */; };
 		46A77B551C1B49FA002618EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A77B541C1B49FA002618EF /* ViewController.swift */; };
 		46A77B581C1B49FA002618EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46A77B561C1B49FA002618EF /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		465EEFAA1C1E4C69007681E2 /* SectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionTests.swift; sourceTree = "<group>"; };
+		465EEFB11C1E575C007681E2 /* RowTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowTests.swift; sourceTree = "<group>"; };
 		46A77B4F1C1B49FA002618EF /* SoySource.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoySource.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46A77B521C1B49FA002618EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46A77B541C1B49FA002618EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				46A77B671C1B49FB002618EF /* SoySourceTests.swift */,
 				465EEFAA1C1E4C69007681E2 /* SectionTests.swift */,
+				465EEFB11C1E575C007681E2 /* RowTests.swift */,
 				46A77B691C1B49FB002618EF /* Info.plist */,
 			);
 			path = SoySourceTests;
@@ -309,6 +312,7 @@
 				465EEFAF1C1E4C72007681E2 /* ReuseIdentifier.swift in Sources */,
 				465EEFAD1C1E4C72007681E2 /* Section.swift in Sources */,
 				46A77B681C1B49FB002618EF /* SoySourceTests.swift in Sources */,
+				465EEFB21C1E575C007681E2 /* RowTests.swift in Sources */,
 				465EEFAE1C1E4C72007681E2 /* Row.swift in Sources */,
 				465EEFB01C1E4C72007681E2 /* UITableView+SoySource.swift in Sources */,
 				465EEFAB1C1E4C69007681E2 /* SectionTests.swift in Sources */,
