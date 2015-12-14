@@ -118,8 +118,8 @@ class SectionTests: XCTestCase {
         let section = Section()
         
         // Initialized
-        XCTAssertEqual(section.heightForHeader(0), nil)
-        XCTAssertEqual(section.heightForFooter(0), nil)
+        XCTAssertEqual(section.header?.heightFor(0), nil)
+        XCTAssertEqual(section.footer?.heightFor(0), nil)
         
         // Constant
         section.createHeader { header in
@@ -128,28 +128,38 @@ class SectionTests: XCTestCase {
         section.createFooter { footer in
             footer.height = 11
         }
-        XCTAssertEqual(section.heightForHeader(0), 10)
-        XCTAssertEqual(section.heightForFooter(0), 11)
+        XCTAssertEqual(section.header?.heightFor(0), 10)
+        XCTAssertEqual(section.footer?.heightFor(0), 11)
         
         // Configure height
-        section.configureHeaderHeight = { _ -> CGFloat? in
-            return 20
+        section.createHeader { header in
+            header.configureHeight = { _ -> CGFloat? in
+                return 20
+            }
         }
-        section.configureFooterHeight = { _ -> CGFloat? in
-            return 21
+        section.createFooter { footer in
+            footer.configureHeight = { _ -> CGFloat? in
+                return 21
+            }
         }
-        XCTAssertEqual(section.heightForHeader(0), 20)
-        XCTAssertEqual(section.heightForFooter(0), 21)
+        XCTAssertEqual(section.header?.heightFor(0), 20)
+        XCTAssertEqual(section.footer?.heightFor(0), 21)
         
         // Configure nil height
-        section.configureHeaderHeight = { _ -> CGFloat? in
-            return nil
+        section.createHeader { header in
+            header.height = 30
+            header.configureHeight = { _ -> CGFloat? in
+                return nil
+            }
         }
-        section.configureFooterHeight = { _ -> CGFloat? in
-            return nil
+        section.createFooter { footer in
+            footer.height = 31
+            footer.configureHeight = { _ -> CGFloat? in
+                return nil
+            }
         }
-        XCTAssertEqual(section.heightForHeader(0), 10)
-        XCTAssertEqual(section.heightForFooter(0), 11)
+        XCTAssertEqual(section.header?.heightFor(0), 30)
+        XCTAssertEqual(section.footer?.heightFor(0), 31)
     }
     
 }

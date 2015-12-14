@@ -24,6 +24,9 @@ class TableViewController: UIViewController {
         tableView.soySource = SoySource().createSection { (section: PlainSection) in
             section.createHeader { header in
                 header.height = 32
+                header.configureView = { view, _ in
+                    view.backgroundColor = UIColor.blueColor()
+                }
             }
             section.createFooter { footer in
                 footer.height = 52

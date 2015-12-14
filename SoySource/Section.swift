@@ -12,25 +12,14 @@ protocol SectionType {
     var rows: [RowType] { get }
     var header: SectionHeaderFooterType? { get }
     var footer: SectionHeaderFooterType? { get }
-    
-    func configureHeader(view: UIView, section: Int)
-    func configureFooter(view: UIView, section: Int)
-    func heightForHeader(section: Int) -> CGFloat?
-    func heightForFooter(section: Int) -> CGFloat?
 }
 
 typealias PlainSection = Section<UIView, UIView>
 
-class Section<HeaderType: UIView, FooterType: UIView> {
+class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
     var rows: [RowType] = []
     var header: SectionHeaderFooterType?
     var footer: SectionHeaderFooterType?
-    
-    // MARK: Configurer
-    var configureHeader: ((HeaderType, Int) -> Void)?
-    var configureFooter: ((FooterType, Int) -> Void)?
-    var configureHeaderHeight: (Int -> CGFloat?)?
-    var configureFooterHeight: (Int -> CGFloat?)?
     
     init() { }
     
@@ -84,51 +73,4 @@ extension Section {
         clousure(SectionHeaderFooter<T>())
         return self
     }
-}
-
-extension Section: SectionType {
- 
-    func configureHeader(view: UIView, section: Int) {
-        guard let headerView = view as? HeaderType else {
-            fatalError()
-        }
-        configureHeader?(headerView, section)
-    }
-    
-    func configureFooter(view: UIView, section: Int) {
-        guard let footerView = view as? FooterType else {
-            fatalError()
-        }
-        configureFooter?(footerView, section)
-    }
-    
-    func heightForHeader(section: Int) -> CGFloat? {
-        return configureHeaderHeight?(section) ?? header?.height
-    }
-    
-    func heightForFooter(section: Int) -> CGFloat? {
-        return configureFooterHeight?(section) ?? footer?.height
-    }
-}
-
-protocol SectionHeaderFooterType {
-    var identifier: String { get }
-    var height: CGFloat? { get set }
-    var title: String? { get set }
-}
-
-class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
-    init() { }
-    
-    init(@noescape clousure: (SectionHeaderFooter<Type> -> Void)) {
-        clousure(self)
-    }
-    
-    var identifier: String {
-        // TODO: Imp
-        return "Header"
-    }
-    
-    var height: CGFloat?
-    var title: String?
 }
