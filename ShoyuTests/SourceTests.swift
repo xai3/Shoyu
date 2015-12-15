@@ -91,4 +91,28 @@ class SourceTests: XCTestCase {
         XCTAssert(source.sectionFor(1).rowFor(1) as! Row === row2_2)
     }
     
+    func testBenchmarkSource() {
+        class HeaderView: UIView { }
+        class FooterView: UIView { }
+        class Cell: UITableViewCell {
+            let label = UILabel()
+        }
+        
+        let source = Source()
+        self.measureBlock {
+            source.createSections(100) { (_, section: Section<HeaderView, FooterView>) in
+                section.createHeader { header in }
+                section.createFooter { footer in }
+                section.createRows(1000) { (_, row: Row<Cell>) in
+                    row.configureCell = { cell, _ in
+                        cell.label.text = "text"
+                    }
+                    row.heightFor = { _ in
+                        return 52
+                    }
+                }
+            }
+        }
+    }
+    
 }
