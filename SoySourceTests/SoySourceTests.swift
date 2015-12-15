@@ -83,12 +83,12 @@ class SoySourceTests: XCTestCase {
         
         source.addSections([section1, section2])
         
-        XCTAssert(source.sectionWith(0) as! Section === section1)
-        XCTAssert(source.sectionWith(1) as! Section === section2)
-        XCTAssert(source.rowWith(NSIndexPath(forRow: 0, inSection: 0)) as! Row === row1_1)
-        XCTAssert(source.rowWith(NSIndexPath(forRow: 1, inSection: 0)) as! Row === row1_2)
-        XCTAssert(source.rowWith(NSIndexPath(forRow: 0, inSection: 1)) as! Row === row2_1)
-        XCTAssert(source.rowWith(NSIndexPath(forRow: 1, inSection: 1)) as! Row === row2_2)
+        XCTAssert(source.sectionFor(0) as! Section === section1)
+        XCTAssert(source.sectionFor(1) as! Section === section2)
+        XCTAssert(source.sectionFor(0).rowFor(0) as! Row === row1_1)
+        XCTAssert(source.sectionFor(0).rowFor(1) as! Row === row1_2)
+        XCTAssert(source.sectionFor(1).rowFor(0) as! Row === row2_1)
+        XCTAssert(source.sectionFor(1).rowFor(1) as! Row === row2_2)
     }
     
 }

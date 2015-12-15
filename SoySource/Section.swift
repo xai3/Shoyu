@@ -12,6 +12,10 @@ protocol SectionType {
     var rows: [RowType] { get }
     var header: SectionHeaderFooterType? { get }
     var footer: SectionHeaderFooterType? { get }
+    
+    var rowCount: Int { get }
+    func rowFor(row: Int) -> RowType
+    func rowFor(indexPath: NSIndexPath) -> RowType
 }
 
 typealias PlainSection = Section<UIView, UIView>
@@ -21,10 +25,22 @@ class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
     var header: SectionHeaderFooterType?
     var footer: SectionHeaderFooterType?
     
+    var rowCount: Int { return rows.count }
+    
     init() { }
     
     init(@noescape clousure: (Section<HeaderType, FooterType> -> Void)) {
         clousure(self)
+    }
+}
+
+extension Section {
+    func rowFor(row: Int) -> RowType {
+        return rows[row]
+    }
+    
+    func rowFor(indexPath: NSIndexPath) -> RowType {
+        return rowFor(indexPath.row)
     }
 }
 

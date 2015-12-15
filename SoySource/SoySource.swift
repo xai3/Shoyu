@@ -49,20 +49,12 @@ class SoySource: NSObject {
 }
 
 extension SoySource {
-    func sectionWith(section: Int) -> SectionType {
+    func sectionFor(section: Int) -> SectionType {
         return sections[section]
     }
     
-    func sectionWith(indexPath: NSIndexPath) -> SectionType {
-        return sectionWith(indexPath.section)
-    }
-    
-    func rowWith(section: Int, row: Int) -> RowType {
-        return sections[section].rows[row]
-    }
-    
-    func rowWith(indexPath: NSIndexPath) -> RowType {
-        return rowWith(indexPath.section, row: indexPath.row)
+    func sectionFor(indexPath: NSIndexPath) -> SectionType {
+        return sectionFor(indexPath.section)
     }
 }
 
@@ -74,18 +66,18 @@ extension SoySource: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sectionWith(section).rows.count
+        return sectionFor(section).rowCount
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row = rowWith(indexPath)
+        let row = sectionFor(indexPath).rowFor(indexPath)
         let cell = tableView.dequeueReusableCellWithIdentifier(row.reuseIdentifier, forIndexPath: indexPath)
         row.configureCell(cell, indexPath: indexPath)
         return cell
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sec = sectionWith(section)
+        let sec = sectionFor(section)
         
         // Create view
         if let view = sec.header?.viewFor(section) {
@@ -103,7 +95,7 @@ extension SoySource: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let sec = sectionWith(section)
+        let sec = sectionFor(section)
         
         // Create view
         if let view = sec.footer?.viewFor(section) {
@@ -135,34 +127,34 @@ extension SoySource: UITableViewDataSource {
 
 extension SoySource: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let row = rowWith(indexPath)
+        let row = sectionFor(indexPath).rowFor(indexPath)
         return row.heightFor(indexPath) ?? row.height ?? tableView.rowHeight
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let sec = sectionWith(section)
+        let sec = sectionFor(section)
         return sec.header?.heightFor(section) ?? sec.header?.height ?? tableView.sectionHeaderHeight
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let sec = sectionWith(section)
+        let sec = sectionFor(section)
         return sec.footer?.heightFor(section) ?? sec.footer?.height ?? tableView.sectionFooterHeight
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        rowWith(indexPath).didSelect(indexPath)
+        sectionFor(indexPath).rowFor(indexPath).didSelect(indexPath)
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        rowWith(indexPath).didDeselect(indexPath)
+        sectionFor(indexPath).rowFor(indexPath).didDeselect(indexPath)
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        rowWith(indexPath).willDisplayCell(cell, indexPath: indexPath)
+        sectionFor(indexPath).rowFor(indexPath).willDisplayCell(cell, indexPath: indexPath)
     }
     
     func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        rowWith(indexPath).didEndDisplayCell(cell, indexPath: indexPath)
+        sectionFor(indexPath).rowFor(indexPath).didEndDisplayCell(cell, indexPath: indexPath)
     }
 }
 
