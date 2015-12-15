@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SectionHeaderFooterType {
+public protocol SectionHeaderFooterType {
     var reuseIdentifier: String? { get }
     var height: CGFloat? { get set }
     var title: String? { get set }
@@ -18,15 +18,15 @@ protocol SectionHeaderFooterType {
     func viewFor(section: Int) -> UIView?
 }
 
-class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
-    init() { }
+public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
+    public init() { }
     
-    init(@noescape clousure: (SectionHeaderFooter<Type> -> Void)) {
+    public init(@noescape clousure: (SectionHeaderFooter<Type> -> Void)) {
         clousure(self)
     }
     
     private var _reuseIdentifier: String?
-    var reuseIdentifier: String? {
+    public var reuseIdentifier: String? {
         set {
             _reuseIdentifier = newValue
         }
@@ -41,27 +41,27 @@ class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
         }
     }
     
-    var height: CGFloat?
-    var title: String?
+    public var height: CGFloat?
+    public var title: String?
     
-    var configureView: ((Type, Int) -> Void)?
-    var heightFor: (Int -> CGFloat?)?
-    var createView: (Int -> Type?)?
+    public var configureView: ((Type, Int) -> Void)?
+    public var heightFor: (Int -> CGFloat?)?
+    public var createView: (Int -> Type?)?
 }
 
 extension SectionHeaderFooter {
-    internal func configureView(view: UIView, section: Int) {
+    public func configureView(view: UIView, section: Int) {
         guard let genericView = view as? Type else {
             fatalError()
         }
         configureView?(genericView, section)
     }
     
-    internal func heightFor(section: Int) -> CGFloat? {
+    public func heightFor(section: Int) -> CGFloat? {
         return heightFor?(section) ?? height
     }
     
-    internal func viewFor(section: Int) -> UIView? {
+    public func viewFor(section: Int) -> UIView? {
         return createView?(section)
     }
 }
