@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  SoySource
+//  Source.swift
+//  Shoyu
 //
 //  Created by asai.yuki on 2015/12/12.
 //  Copyright © 2015年 yukiasai. All rights reserved.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-class SoySource: NSObject {
+class Source: NSObject {
     internal var sections = [SectionType]()
     
     override init() {
         super.init()
     }
     
-    convenience init(@noescape clousure: (SoySource -> Void)) {
+    convenience init(@noescape clousure: (Source -> Void)) {
         self.init()
         clousure(self)
     }
@@ -48,7 +48,7 @@ class SoySource: NSObject {
     
 }
 
-extension SoySource {
+extension Source {
     func sectionFor(section: Int) -> SectionType {
         return sections[section]
     }
@@ -60,7 +60,7 @@ extension SoySource {
 
 // MARK: - Table view data source
 
-extension SoySource: UITableViewDataSource {
+extension Source: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sections.count
     }
@@ -125,7 +125,7 @@ extension SoySource: UITableViewDataSource {
 
 // MARK: - Table view delegate
 
-extension SoySource: UITableViewDelegate {
+extension Source: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let row = sectionFor(indexPath).rowFor(indexPath)
         return row.heightFor(indexPath) ?? row.height ?? tableView.rowHeight

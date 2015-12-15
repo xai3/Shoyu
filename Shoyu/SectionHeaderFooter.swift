@@ -1,6 +1,6 @@
 //
 //  SectionHeaderFooter.swift
-//  SoySource
+//  Shoyu
 //
 //  Created by Asai.Yuki on 2015/12/14.
 //  Copyright © 2015年 yukiasai. All rights reserved.

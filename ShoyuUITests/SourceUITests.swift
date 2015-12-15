@@ -1,6 +1,6 @@
 //
-//  SoySourceUITests.swift
-//  SoySourceUITests
+//  SourceUITests.swift
+//  ShoyuUITests
 //
 //  Created by asai.yuki on 2015/12/12.
 //  Copyright © 2015年 yukiasai. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class SoySourceUITests: XCTestCase {
+class SourceUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
