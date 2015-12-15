@@ -18,8 +18,6 @@ protocol SectionType {
     func rowFor(indexPath: NSIndexPath) -> RowType
 }
 
-typealias PlainSection = Section<UIView, UIView>
-
 class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
     var rows: [RowType] = []
     var header: SectionHeaderFooterType?
