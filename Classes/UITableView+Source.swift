@@ -13,8 +13,8 @@ struct UITableViewAssociatedObjectHandle {
     static var Source: UInt8 = 0
 }
 
-extension UITableView {
-    var source: Source? {
+public extension UITableView {
+    public var source: Source? {
         set {
             objc_setAssociatedObject(self, &UITableViewAssociatedObjectHandle.Source, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             dataSource = newValue

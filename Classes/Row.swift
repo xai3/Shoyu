@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol RowType {
+public protocol RowType {
     var reuseIdentifier: String { get set }
     var height: CGFloat? { get }
     
@@ -20,22 +20,22 @@ protocol RowType {
     func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath)
 }
 
-class Row<T: UITableViewCell>: RowType {
+public class Row<T: UITableViewCell>: RowType {
     init() { }
     
     init(@noescape clousure: (Row<T> -> Void)) {
         clousure(self)
     }
     
-    var configureCell: ((T, NSIndexPath) -> Void)?
-    var heightFor: (NSIndexPath -> CGFloat?)?
-    var didSelect: (NSIndexPath -> Void)?
-    var didDeselect: (NSIndexPath -> Void)?
-    var willDisplayCell: ((T, NSIndexPath) -> Void)?
-    var didEndDisplayCell: ((T, NSIndexPath) -> Void)?
+    public var configureCell: ((T, NSIndexPath) -> Void)?
+    public var heightFor: (NSIndexPath -> CGFloat?)?
+    public var didSelect: (NSIndexPath -> Void)?
+    public var didDeselect: (NSIndexPath -> Void)?
+    public var willDisplayCell: ((T, NSIndexPath) -> Void)?
+    public var didEndDisplayCell: ((T, NSIndexPath) -> Void)?
     
     private var _reuseIdentifier: String?
-    var reuseIdentifier: String {
+    public var reuseIdentifier: String {
         set {
             _reuseIdentifier = newValue
         }
@@ -50,37 +50,37 @@ class Row<T: UITableViewCell>: RowType {
         }
     }
     
-    var height: CGFloat?
+    public var height: CGFloat?
 }
 
 extension Row {
-    internal func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    public func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         configureCell?(genericCell, indexPath)
     }
     
-    internal func heightFor(indexPath: NSIndexPath) -> CGFloat? {
+    public func heightFor(indexPath: NSIndexPath) -> CGFloat? {
         return heightFor?(indexPath) ?? height
     }
     
-    internal func didSelect(indexPath: NSIndexPath) {
+    public func didSelect(indexPath: NSIndexPath) {
         didSelect?(indexPath)
     }
     
-    internal func didDeselect(indexPath: NSIndexPath) {
+    public func didDeselect(indexPath: NSIndexPath) {
         didDeselect?(indexPath)
     }
     
-    internal func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    public func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         willDisplayCell?(genericCell, indexPath)
     }
     
-    internal func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    public func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
