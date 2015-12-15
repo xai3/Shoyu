@@ -1,6 +1,6 @@
 //
 //  TableViewController.swift
-//  SoySource
+//  Shoyu
 //
 //  Created by asai.yuki on 2015/12/12.
 //  Copyright © 2015年 yukiasai. All rights reserved.
@@ -21,7 +21,7 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.soySource = SoySource().createSection { (section: PlainSection) in
+        tableView.source = Source().createSection { (section: PlainSection) in
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32

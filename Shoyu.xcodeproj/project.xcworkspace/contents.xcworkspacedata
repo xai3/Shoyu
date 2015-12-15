@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SoySource.xcodeproj">
+      location = "self:/Users/asai/develop/ios/soysource/Shoyu.xcodeproj">
    </FileRef>
 </Workspace>

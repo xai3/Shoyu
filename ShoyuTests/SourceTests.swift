@@ -1,15 +1,15 @@
 //
-//  SoySourceTests.swift
-//  SoySourceTests
+//  SourceTests.swift
+//  ShoyuTests
 //
 //  Created by asai.yuki on 2015/12/12.
 //  Copyright © 2015年 yukiasai. All rights reserved.
 //
 
 import XCTest
-@testable import SoySource
+@testable import Shoyu
 
-class SoySourceTests: XCTestCase {
+class SourceTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -20,7 +20,7 @@ class SoySourceTests: XCTestCase {
     }
     
     func testAddSection() {
-        let source = SoySource().addSection(Section())
+        let source = Source().addSection(Section())
         XCTAssertEqual(source.sections.count, 1)
         
         source.addSection(Section())
@@ -33,7 +33,7 @@ class SoySourceTests: XCTestCase {
     }
     
     func testAddSections() {
-        let source = SoySource().addSections([Section(), Section()])
+        let source = Source().addSections([Section(), Section()])
         XCTAssertEqual(source.sections.count, 2)
         
         // Method chain
@@ -42,7 +42,7 @@ class SoySourceTests: XCTestCase {
     }
     
     func testCreateSection() {
-        let source = SoySource().createSection { _ in }
+        let source = Source().createSection { _ in }
         XCTAssertEqual(source.sections.count, 1)
         
         source.createSection { _ in }
@@ -55,7 +55,7 @@ class SoySourceTests: XCTestCase {
     }
     
     func testCreateSections() {
-        let source = SoySource()
+        let source = Source()
         
         // Count
         let count = UInt(2)
@@ -69,7 +69,7 @@ class SoySourceTests: XCTestCase {
     }
     
     func testSectionAndRowAtIndex() {
-        let source = SoySource()
+        let source = Source()
         
         let section1 = Section()
         let row1_1 = Row()

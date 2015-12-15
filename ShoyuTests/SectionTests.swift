@@ -1,13 +1,13 @@
 //
 //  SectionTest.swift
-//  SoySource
+//  Shoyu
 //
 //  Created by Asai.Yuki on 2015/12/14.
 //  Copyright © 2015年 yukiasai. All rights reserved.
 //
 
 import XCTest
-@testable import SoySource
+@testable import Shoyu
 
 class SectionTests: XCTestCase {
     

@@ -1,6 +1,6 @@
 //
 //  Row.swift
-//  SoySource
+//  Shoyu
 //
 //  Created by asai.yuki on 2015/12/12.
 //  Copyright © 2015年 yukiasai. All rights reserved.
