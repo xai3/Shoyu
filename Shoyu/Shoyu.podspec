@@ -1,0 +1,13 @@
+Pod::Spec.new do |s|
+  s.name = 'Shoyu'
+  s.version = '0.1'
+  s.license = 'MIT'
+  s.summary = 'Table view datasource and delegate library in Swift'
+  s.authors = { 'yukiasai' => 'yukiasai@gmail.com' }
+  s.source = { :git => 'https://github.com/yukiasai/Shoyu.git', :tag => s.version }
+
+  s.ios.deployment_target = '8.0'
+  
+  s.source_files = 'Classes/*.swift'
+end
+
