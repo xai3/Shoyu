@@ -32,10 +32,14 @@ class TableViewController: UIViewController {
             section.createFooter { footer in
                 footer.createView = { _ in
                     let view = UIView()
-                    view.backgroundColor = UIColor.orangeColor()
                     return view
                 }
-                footer.height = 52
+                footer.configureView = { view, _ in
+                    view.backgroundColor = UIColor.orangeColor()
+                }
+                footer.heightFor = { _ -> CGFloat? in
+                    return 32
+                }
             }
             section.createRows(members) { (member: Member, row: Row<DefaultTableViewCell>) in
                 row.height = 52

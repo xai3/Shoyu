@@ -8,16 +8,6 @@
 
 import UIKit
 
-public protocol SectionHeaderFooterType {
-    var reuseIdentifier: String? { get }
-    var height: CGFloat? { get set }
-    var title: String? { get set }
-    
-    func configureView(view: UIView, section: Int)
-    func heightFor(section: Int) -> CGFloat?
-    func viewFor(section: Int) -> UIView?
-}
-
 public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     public init() { }
     
@@ -49,19 +39,19 @@ public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     public var createView: (Int -> Type?)?
 }
 
-extension SectionHeaderFooter {
-    public func configureView(view: UIView, section: Int) {
+extension SectionHeaderFooter: SectionHeaderFooterDelegateType {
+    func configureView(view: UIView, section: Int) {
         guard let genericView = view as? Type else {
             fatalError()
         }
         configureView?(genericView, section)
     }
     
-    public func heightFor(section: Int) -> CGFloat? {
+    func heightFor(section: Int) -> CGFloat? {
         return heightFor?(section) ?? height
     }
     
-    public func viewFor(section: Int) -> UIView? {
+    func viewFor(section: Int) -> UIView? {
         return createView?(section)
     }
 }
