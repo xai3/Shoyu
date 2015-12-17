@@ -8,22 +8,11 @@
 
 import UIKit
 
-public protocol SectionType {
-    var rows: [RowType] { get }
-    var header: SectionHeaderFooterType? { get }
-    var footer: SectionHeaderFooterType? { get }
-    
-    var rowCount: Int { get }
-    func rowFor(row: Int) -> RowType
-    func rowFor(indexPath: NSIndexPath) -> RowType
-}
-
 public class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
-    public var rows: [RowType] = []
+    var rows: [RowType] = []
+    
     public var header: SectionHeaderFooterType?
     public var footer: SectionHeaderFooterType?
-    
-    public var rowCount: Int { return rows.count }
     
     public init() { }
     
@@ -33,6 +22,8 @@ public class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
 }
 
 extension Section {
+    public var rowCount: Int { return rows.count }
+    
     public func rowFor(row: Int) -> RowType {
         return rows[row]
     }

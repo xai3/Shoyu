@@ -8,18 +8,6 @@
 
 import UIKit
 
-public protocol RowType {
-    var reuseIdentifier: String { get set }
-    var height: CGFloat? { get }
-    
-    func configureCell(cell: UITableViewCell, indexPath: NSIndexPath)
-    func heightFor(indexPath: NSIndexPath) -> CGFloat?
-    func didSelect(indexPath: NSIndexPath)
-    func didDeselect(indexPath: NSIndexPath)
-    func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath)
-    func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath)
-}
-
 public class Row<T: UITableViewCell>: RowType {
     init() { }
     
@@ -53,34 +41,34 @@ public class Row<T: UITableViewCell>: RowType {
     public var height: CGFloat?
 }
 
-extension Row {
-    public func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+extension Row: RowDelegateType {
+    func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         configureCell?(genericCell, indexPath)
     }
     
-    public func heightFor(indexPath: NSIndexPath) -> CGFloat? {
+    func heightFor(indexPath: NSIndexPath) -> CGFloat? {
         return heightFor?(indexPath) ?? height
     }
     
-    public func didSelect(indexPath: NSIndexPath) {
+    func didSelect(indexPath: NSIndexPath) {
         didSelect?(indexPath)
     }
     
-    public func didDeselect(indexPath: NSIndexPath) {
+    func didDeselect(indexPath: NSIndexPath) {
         didDeselect?(indexPath)
     }
     
-    public func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         willDisplayCell?(genericCell, indexPath)
     }
     
-    public func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+    func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }

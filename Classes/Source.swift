@@ -72,7 +72,9 @@ extension Source: UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = sectionFor(indexPath).rowFor(indexPath)
         let cell = tableView.dequeueReusableCellWithIdentifier(row.reuseIdentifier, forIndexPath: indexPath)
-        row.configureCell(cell, indexPath: indexPath)
+        if let delegate = row as? RowDelegateType {
+            delegate.configureCell(cell, indexPath: indexPath)
+        }
         return cell
     }
     
@@ -80,15 +82,18 @@ extension Source: UITableViewDataSource {
         let sec = sectionFor(section)
         
         // Create view
-        if let view = sec.header?.viewFor(section) {
-            sec.header?.configureView(view, section: section)
+        if let delegate = sec.header as? SectionHeaderFooterDelegateType,
+            let view = delegate.viewFor(section) {
+            delegate.configureView(view, section: section)
             return view
         }
         
         // Dequeue
         if let identifier = sec.header?.reuseIdentifier,
             let view = dequeueReusableView(tableView, identifier: identifier) {
-                sec.header?.configureView(view, section: section)
+                if let delegate = sec.header as? SectionHeaderFooterDelegateType {
+                    delegate.configureView(view, section: section)
+                }
                 return view
         }
         return nil
@@ -98,15 +103,18 @@ extension Source: UITableViewDataSource {
         let sec = sectionFor(section)
         
         // Create view
-        if let view = sec.footer?.viewFor(section) {
-            sec.footer?.configureView(view, section: section)
-            return view
+        if let delegate = sec.footer as? SectionHeaderFooterDelegateType,
+            let view = delegate.viewFor(section) {
+                delegate.configureView(view, section: section)
+                return view
         }
         
         // Dequeue
         if let identifier = sec.footer?.reuseIdentifier,
             let view = dequeueReusableView(tableView, identifier: identifier) {
-                sec.footer?.configureView(view, section: section)
+                if let delegate = sec.footer as? SectionHeaderFooterDelegateType {
+                    delegate.configureView(view, section: section)
+                }
                 return view
         }
         return nil
@@ -128,33 +136,49 @@ extension Source: UITableViewDataSource {
 extension Source: UITableViewDelegate {
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let row = sectionFor(indexPath).rowFor(indexPath)
-        return row.heightFor(indexPath) ?? row.height ?? tableView.rowHeight
+        if let delegate = row as? RowDelegateType,
+            let height = delegate.heightFor(indexPath) {
+                return height
+        }
+        return tableView.rowHeight
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let sec = sectionFor(section)
-        return sec.header?.heightFor(section) ?? sec.header?.height ?? tableView.sectionHeaderHeight
+        if let delegate = sec.header as? SectionHeaderFooterDelegateType,
+            let height = delegate.heightFor(section) {
+                return height
+        }
+        return tableView.sectionHeaderHeight
     }
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let sec = sectionFor(section)
-        return sec.footer?.heightFor(section) ?? sec.footer?.height ?? tableView.sectionFooterHeight
+        if let delegate = sec.footer as? SectionHeaderFooterDelegateType,
+            let height = delegate.heightFor(section) {
+                return height
+        }
+        return tableView.sectionFooterHeight
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        sectionFor(indexPath).rowFor(indexPath).didSelect(indexPath)
+        let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
+        row?.didSelect(indexPath)
     }
     
     public func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        sectionFor(indexPath).rowFor(indexPath).didDeselect(indexPath)
+        let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
+        row?.didDeselect(indexPath)
     }
     
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        sectionFor(indexPath).rowFor(indexPath).willDisplayCell(cell, indexPath: indexPath)
+        let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
+        row?.willDisplayCell(cell, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        sectionFor(indexPath).rowFor(indexPath).didEndDisplayCell(cell, indexPath: indexPath)
+        let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
+        row?.didEndDisplayCell(cell, indexPath: indexPath)
     }
 }
 
