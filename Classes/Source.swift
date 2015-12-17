@@ -134,6 +134,14 @@ extension Source: UITableViewDelegate {
         return tableView.rowHeight
     }
     
+    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionFor(section).header?.title
+    }
+    
+    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return sectionFor(section).footer?.title
+    }
+    
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let header = sectionFor(section).header else {
             return 0
