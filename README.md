@@ -20,7 +20,7 @@ tableView.source = Source() { source in
             // Setting reuse identifier
             row.reuseIdentifier = "Cell"
             
-            // Setting constant height.
+            // Setting fixed height.
             row.height = 52
             
             // Configuring handler for cell.
@@ -67,15 +67,18 @@ Use `createHeader` and `createFooter`.
 tableView.source = Source() { source in
    source.createSection { section in
         
-        // Create header
+        // Create header.
         section.createHeader { header in
+            // Setting title.
+            header.title = "Header"
+            
             header.height = 22
             header.configureView = { view, _ in
                 view.backgroundColor = UIColor.lightGrayColor()
             }
         }
         
-        // Create footer
+        // Create footer.
         section.createFooter { footer in
           ...
         }
