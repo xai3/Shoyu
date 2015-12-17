@@ -79,40 +79,31 @@ extension Source: UITableViewDataSource {
     }
     
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let sec = sectionFor(section)
-        
-        // Create view
-        if let delegate = sec.header as? SectionHeaderFooterDelegateType,
-            let view = delegate.viewFor(section) {
-            delegate.configureView(view, section: section)
-            return view
+        guard let header = sectionFor(section).header else {
+            return nil
         }
-        
-        // Dequeue
-        if let identifier = sec.header?.reuseIdentifier,
-            let view = dequeueReusableView(tableView, identifier: identifier) {
-                if let delegate = sec.header as? SectionHeaderFooterDelegateType {
-                    delegate.configureView(view, section: section)
-                }
-                return view
-        }
-        return nil
+        return sectionHeaderFooterViewFor(header, tableView: tableView, section: section)
     }
     
     public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let sec = sectionFor(section)
-        
+        guard let footer = sectionFor(section).footer else {
+            return nil
+        }
+        return sectionHeaderFooterViewFor(footer, tableView: tableView, section: section)
+    }
+    
+    private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
         // Create view
-        if let delegate = sec.footer as? SectionHeaderFooterDelegateType,
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
             let view = delegate.viewFor(section) {
                 delegate.configureView(view, section: section)
                 return view
         }
         
         // Dequeue
-        if let identifier = sec.footer?.reuseIdentifier,
+        if let identifier = headerFooter.reuseIdentifier,
             let view = dequeueReusableView(tableView, identifier: identifier) {
-                if let delegate = sec.footer as? SectionHeaderFooterDelegateType {
+                if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
                     delegate.configureView(view, section: section)
                 }
                 return view
@@ -144,21 +135,25 @@ extension Source: UITableViewDelegate {
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let sec = sectionFor(section)
-        if let delegate = sec.header as? SectionHeaderFooterDelegateType,
-            let height = delegate.heightFor(section) {
-                return height
+        guard let header = sectionFor(section).header else {
+            return 0
         }
-        return tableView.sectionHeaderHeight
+        return sectionHeaderFooterHeightFor(header, section: section) ?? tableView.sectionHeaderHeight
     }
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let sec = sectionFor(section)
-        if let delegate = sec.footer as? SectionHeaderFooterDelegateType,
+        guard let footer = sectionFor(section).footer else {
+            return 0
+        }
+        return sectionHeaderFooterHeightFor(footer, section: section) ?? tableView.sectionFooterHeight
+    }
+    
+    private func sectionHeaderFooterHeightFor(headerFooter: SectionHeaderFooterType, section: Int) -> CGFloat? {
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
             let height = delegate.heightFor(section) {
                 return height
         }
-        return tableView.sectionFooterHeight
+        return nil
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
