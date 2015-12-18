@@ -31,10 +31,8 @@ public class Row<T: UITableViewCell>: RowType {
             if let identifier = _reuseIdentifier {
                 return identifier
             }
-            if let identifier = T() as? ReuseIdentifierType {
-                return identifier.identifier
-            }
-            fatalError()
+            let identifier = T() as ReuseIdentifierType
+            return identifier.identifier
         }
     }
     
