@@ -30,6 +30,9 @@ class TableViewController: UIViewController {
                 }
             }
             section.createFooter { footer in
+                footer.createView = { [weak self] _ in
+                    return self?.createView()
+                }
                 footer.configureView = { view, _ in
                     view.backgroundColor = UIColor.orangeColor()
                 }
@@ -79,6 +82,15 @@ class TableViewController: UIViewController {
     
     deinit {
         print("TableViewController deinit")
+    }
+    
+    private func createView() -> UIView {
+        let view = UIView()
+        let label = UILabel(frame: CGRectMake(5, 5, 0, 0))
+        label.text = "Custom view footer"
+        label.sizeToFit()
+        view.addSubview(label)
+        return view
     }
 
 }

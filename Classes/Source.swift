@@ -158,19 +158,19 @@ extension Source: UITableViewDelegate {
 
 extension Source {
     private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
-        // Create view
-        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let view = delegate.viewFor(section) {
-                delegate.configureView(view, section: section)
-                return view
-        }
-        
         // Dequeue
         if let identifier = headerFooter.reuseIdentifier,
             let view = dequeueReusableView(tableView, identifier: identifier) {
                 if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
                     delegate.configureView(view, section: section)
                 }
+                return view
+        }
+        
+        // Create view
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
+            let view = delegate.viewFor(section) {
+                delegate.configureView(view, section: section)
                 return view
         }
         return nil
