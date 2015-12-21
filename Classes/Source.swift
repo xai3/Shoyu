@@ -91,25 +91,6 @@ extension Source: UITableViewDataSource {
         }
         return sectionHeaderFooterViewFor(footer, tableView: tableView, section: section)
     }
-   
-    private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
-        // Create view
-        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let view = delegate.viewFor(section) {
-                delegate.configureView(view, section: section)
-                return view
-        }
-        
-        // Dequeue
-        if let identifier = headerFooter.reuseIdentifier,
-            let view = dequeueReusableView(tableView, identifier: identifier) {
-                if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
-                    delegate.configureView(view, section: section)
-                }
-                return view
-        }
-        return nil
-    }
     
     public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let header = sectionFor(section).header else {
@@ -123,24 +104,6 @@ extension Source: UITableViewDataSource {
             return nil
         }
         return sectionHeaderFooterTitleFor(footer, section: section)
-    }
-    
-    private func sectionHeaderFooterTitleFor(headerFooter: SectionHeaderFooterType, section: Int) -> String? {
-        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let title = delegate.titleFor(section) {
-                return title
-        }
-        return nil
-    }
-    
-    private func dequeueReusableView(tableView: UITableView, identifier: String) -> UIView? {
-        if let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) {
-            return view
-        }
-        if let cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
-            return cell.contentView
-        }
-        return nil
     }
 }
 
@@ -170,14 +133,6 @@ extension Source: UITableViewDelegate {
         return sectionHeaderFooterHeightFor(footer, section: section) ?? tableView.sectionFooterHeight
     }
     
-    private func sectionHeaderFooterHeightFor(headerFooter: SectionHeaderFooterType, section: Int) -> CGFloat? {
-        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let height = delegate.heightFor(section) {
-                return height
-        }
-        return nil
-    }
-    
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.didSelect(indexPath)
@@ -196,6 +151,55 @@ extension Source: UITableViewDelegate {
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.didEndDisplayCell(cell, indexPath: indexPath)
+    }
+}
+
+// MARK: Private method
+
+extension Source {
+    private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
+        // Create view
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
+            let view = delegate.viewFor(section) {
+                delegate.configureView(view, section: section)
+                return view
+        }
+        
+        // Dequeue
+        if let identifier = headerFooter.reuseIdentifier,
+            let view = dequeueReusableView(tableView, identifier: identifier) {
+                if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
+                    delegate.configureView(view, section: section)
+                }
+                return view
+        }
+        return nil
+    }
+    
+    private func sectionHeaderFooterTitleFor(headerFooter: SectionHeaderFooterType, section: Int) -> String? {
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
+            let title = delegate.titleFor(section) {
+                return title
+        }
+        return nil
+    }
+    
+    private func dequeueReusableView(tableView: UITableView, identifier: String) -> UIView? {
+        if let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) {
+            return view
+        }
+        if let cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
+            return cell.contentView
+        }
+        return nil
+    }
+    
+    private func sectionHeaderFooterHeightFor(headerFooter: SectionHeaderFooterType, section: Int) -> CGFloat? {
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
+            let height = delegate.heightFor(section) {
+                return height
+        }
+        return nil
     }
 }
 
