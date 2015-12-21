@@ -91,6 +91,35 @@ class SourceTests: XCTestCase {
         XCTAssert(source.sectionFor(1).rowFor(1) as! Row === row2_2)
     }
     
+    func testMoveRow() {
+        func reuseIdentifierFrom(section: Int, row: Int) -> String {
+            return String(section * 10000 + row)
+        }
+        func reuserIdentifierFromIndexPath(indexPath: NSIndexPath) -> String {
+            return reuseIdentifierFrom(indexPath.section, row: indexPath.row)
+        }
+        
+        let sectionCount = 10
+        let rowCount = 10
+        let source = Source { source in
+            source.createSections(UInt(sectionCount)) { sectionIndex, section in
+                section.createRows(UInt(rowCount)) { rowIndex, row in
+                    row.reuseIdentifier = reuseIdentifierFrom(Int(sectionIndex), row: Int(rowIndex))
+                }
+            }
+        }
+        
+        let sourceIndexPath = NSIndexPath(forRow: 2, inSection: 3)
+        let destinationIndexPath = NSIndexPath(forRow: 4, inSection: 5)
+        
+        // Move
+        source.moveRow(sourceIndexPath, destinationIndexPath: destinationIndexPath)
+        
+        // Validation
+        XCTAssertNotEqual(source.sectionFor(sourceIndexPath).rowFor(sourceIndexPath).reuseIdentifier, reuserIdentifierFromIndexPath(sourceIndexPath))
+        XCTAssertEqual(source.sectionFor(destinationIndexPath).rowFor(destinationIndexPath).reuseIdentifier, reuserIdentifierFromIndexPath(sourceIndexPath))
+    }
+    
     func testBenchmarkSource() {
         class HeaderView: UIView { }
         class FooterView: UIView { }

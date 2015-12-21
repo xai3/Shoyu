@@ -31,6 +31,14 @@ extension Section {
     public func rowFor(indexPath: NSIndexPath) -> RowType {
         return rowFor(indexPath.row)
     }
+    
+    public func removeRow(index: Int) -> RowType {
+        return rows.removeAtIndex(index)
+    }
+    
+    public func insertRow(row: RowType, index: Int) {
+        rows.insert(row, atIndex: index)
+    }
 }
 
 extension Section {
