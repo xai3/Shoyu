@@ -11,8 +11,8 @@ import UIKit
 public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     public init() { }
     
-    public init(@noescape clousure: (SectionHeaderFooter<Type> -> Void)) {
-        clousure(self)
+    public init(@noescape closure: (SectionHeaderFooter<Type> -> Void)) {
+        closure(self)
     }
     
     private var _reuseIdentifier: String?

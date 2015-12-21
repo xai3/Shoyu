@@ -11,8 +11,8 @@ import UIKit
 public class Row<T: UITableViewCell>: RowType {
     init() { }
     
-    init(@noescape clousure: (Row<T> -> Void)) {
-        clousure(self)
+    init(@noescape closure: (Row<T> -> Void)) {
+        closure(self)
     }
     
     public var configureCell: ((T, NSIndexPath) -> Void)?

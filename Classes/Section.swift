@@ -16,8 +16,8 @@ public class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
     
     public init() { }
     
-    public init(@noescape clousure: (Section<HeaderType, FooterType> -> Void)) {
-        clousure(self)
+    public init(@noescape closure: (Section<HeaderType, FooterType> -> Void)) {
+        closure(self)
     }
 }
 
@@ -44,38 +44,38 @@ extension Section {
         return self
     }
     
-    public func createRow<T>(@noescape clousure: (Row<T> -> Void)) -> Self {
-        return addRow(Row<T>() { clousure($0) })
+    public func createRow<T>(@noescape closure: (Row<T> -> Void)) -> Self {
+        return addRow(Row<T>() { closure($0) })
     }
     
-    public func createRows<T, E>(elements: [E], @noescape clousure: ((E, Row<T>) -> Void)) -> Self {
+    public func createRows<T, E>(elements: [E], @noescape closure: ((E, Row<T>) -> Void)) -> Self {
         return addRows(
             elements.map { element -> Row<T> in
-                return Row<T>() { clousure(element, $0) }
+                return Row<T>() { closure(element, $0) }
                 }.map { $0 as RowType }
         )
     }
     
-    public func createRows<T>(count: UInt, @noescape clousure: ((UInt, Row<T>) -> Void)) -> Self {
-        return createRows([UInt](0..<count), clousure: clousure)
+    public func createRows<T>(count: UInt, @noescape closure: ((UInt, Row<T>) -> Void)) -> Self {
+        return createRows([UInt](0..<count), closure: closure)
     }
     
-    public func createHeader(@noescape clousure: (SectionHeaderFooter<HeaderType> -> Void)) -> Self {
+    public func createHeader(@noescape closure: (SectionHeaderFooter<HeaderType> -> Void)) -> Self {
         return createHaederFooter { (header: SectionHeaderFooter<HeaderType>) in
             self.header = header
-            clousure(header)
+            closure(header)
         }
     }
     
-    public func createFooter(@noescape clousure: (SectionHeaderFooter<FooterType> -> Void)) -> Self {
+    public func createFooter(@noescape closure: (SectionHeaderFooter<FooterType> -> Void)) -> Self {
         return createHaederFooter { (footer: SectionHeaderFooter<FooterType>) in
             self.footer = footer
-            clousure(footer)
+            closure(footer)
         }
     }
     
-    private func createHaederFooter<T>(@noescape clousure:(SectionHeaderFooter<T> -> Void)) -> Self {
-        clousure(SectionHeaderFooter<T>())
+    private func createHaederFooter<T>(@noescape closure:(SectionHeaderFooter<T> -> Void)) -> Self {
+        closure(SectionHeaderFooter<T>())
         return self
     }
 }

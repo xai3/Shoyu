@@ -15,9 +15,9 @@ public class Source: NSObject {
         super.init()
     }
     
-    public convenience init(@noescape clousure: (Source -> Void)) {
+    public convenience init(@noescape closure: (Source -> Void)) {
         self.init()
-        clousure(self)
+        closure(self)
     }
     
     public func addSection(section: SectionType) -> Self {
@@ -30,20 +30,20 @@ public class Source: NSObject {
         return self
     }
     
-    public func createSection<H, F>(@noescape clousure: (Section<H, F> -> Void)) -> Self {
-        return addSection(Section<H, F>() { clousure($0) })
+    public func createSection<H, F>(@noescape closure: (Section<H, F> -> Void)) -> Self {
+        return addSection(Section<H, F>() { closure($0) })
     }
     
-    public func createSections<H, F, E>(elements: [E], @noescape clousure: ((E, Section<H, F>) -> Void)) -> Self {
+    public func createSections<H, F, E>(elements: [E], @noescape closure: ((E, Section<H, F>) -> Void)) -> Self {
         return addSections(
             elements.map { element -> Section<H, F> in
-                return Section<H, F>() { clousure(element, $0) }
+                return Section<H, F>() { closure(element, $0) }
                 }.map { $0 as SectionType }
         )
     }
     
-    public func createSections<H, F>(count: UInt, @noescape clousure: ((UInt, Section<H, F>) -> Void)) -> Self {
-        return createSections([UInt](0..<count), clousure: clousure)
+    public func createSections<H, F>(count: UInt, @noescape closure: ((UInt, Section<H, F>) -> Void)) -> Self {
+        return createSections([UInt](0..<count), closure: closure)
     }
     
 }
