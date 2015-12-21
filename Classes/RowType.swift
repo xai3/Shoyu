@@ -16,8 +16,14 @@ public protocol RowType {
 protocol RowDelegateType {
     func configureCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)
     func heightFor(tableView: UITableView, indexPath: NSIndexPath) -> CGFloat?
+    func canEdit(indexPath: NSIndexPath) -> Bool
+    func canRemove(indexPath: NSIndexPath) -> Bool
+    func canMove(indexPath: NSIndexPath) -> Bool
+    func canMoveTo(indexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool
     func didSelect(tableView: UITableView, indexPath: NSIndexPath)
     func didDeselect(tableView: UITableView, indexPath: NSIndexPath)
     func willDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)
     func didEndDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)
+    func willRemove(indexPath: NSIndexPath) -> UITableViewRowAnimation
+    func didRemove(indexPath: NSIndexPath)
 }

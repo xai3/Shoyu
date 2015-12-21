@@ -20,10 +20,15 @@ public class Row<T: UITableViewCell>: RowType {
     
     public var configureCell: (RowCellEventType -> Void)?
     public var heightFor: (RowEventType -> CGFloat?)?
+    public var canRemove: (NSIndexPath -> Bool?)?
+    public var canMove: (NSIndexPath -> Bool?)?
+    public var canMoveTo: ((NSIndexPath, NSIndexPath) -> Bool?)?
     public var didSelect: (RowEventType -> Void)?
     public var didDeselect: (RowEventType -> Void)?
     public var willDisplayCell: (RowCellEventType -> Void)?
     public var didEndDisplayCell: (RowCellEventType -> Void)?
+    public var willRemove: (NSIndexPath -> UITableViewRowAnimation?)?
+    public var didRemove: (NSIndexPath -> Void)?
     
     private var _reuseIdentifier: String?
     public var reuseIdentifier: String {
@@ -54,6 +59,22 @@ extension Row: RowDelegateType {
         return heightFor?((self, tableView, indexPath)) ?? height
     }
     
+    func canEdit(indexPath: NSIndexPath) -> Bool {
+        return canRemove(indexPath) || canMove(indexPath)
+    }
+    
+    func canRemove(indexPath: NSIndexPath) -> Bool {
+        return canRemove?(indexPath) ?? false
+    }
+    
+    func canMove(indexPath: NSIndexPath) -> Bool {
+        return canMove?(indexPath) ?? false
+    }
+    
+    func canMoveTo(indexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool {
+        return canMoveTo?(indexPath, destinationIndexPath) ?? false
+    }
+    
     func didSelect(tableView: UITableView, indexPath: NSIndexPath) {
         didSelect?((self, tableView, indexPath))
     }
@@ -74,5 +95,13 @@ extension Row: RowDelegateType {
             fatalError()
         }
         didEndDisplayCell?((self, tableView, genericCell, indexPath))
+    }
+    
+    func willRemove(indexPath: NSIndexPath) -> UITableViewRowAnimation {
+        return willRemove?(indexPath) ?? .Fade
+    }
+    
+    func didRemove(indexPath: NSIndexPath) {
+        didRemove?(indexPath)
     }
 }
