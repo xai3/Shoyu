@@ -91,7 +91,7 @@ extension Source: UITableViewDataSource {
         }
         return sectionHeaderFooterViewFor(footer, tableView: tableView, section: section)
     }
-    
+   
     private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
         // Create view
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
@@ -107,6 +107,28 @@ extension Source: UITableViewDataSource {
                     delegate.configureView(view, section: section)
                 }
                 return view
+        }
+        return nil
+    }
+    
+    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let header = sectionFor(section).header else {
+            return nil
+        }
+        return sectionHeaderFooterTitleFor(header, section: section)
+    }
+    
+    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        guard let footer = sectionFor(section).footer else {
+            return nil
+        }
+        return sectionHeaderFooterTitleFor(footer, section: section)
+    }
+    
+    private func sectionHeaderFooterTitleFor(headerFooter: SectionHeaderFooterType, section: Int) -> String? {
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
+            let title = delegate.titleFor(section) {
+                return title
         }
         return nil
     }
@@ -132,14 +154,6 @@ extension Source: UITableViewDelegate {
                 return height
         }
         return tableView.rowHeight
-    }
-    
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionFor(section).header?.title
-    }
-    
-    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return sectionFor(section).footer?.title
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

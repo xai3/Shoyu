@@ -30,12 +30,11 @@ class TableViewController: UIViewController {
                 }
             }
             section.createFooter { footer in
-                footer.createView = { _ in
-                    let view = UIView()
-                    return view
-                }
                 footer.configureView = { view, _ in
                     view.backgroundColor = UIColor.orangeColor()
+                }
+                footer.titleFor = { _ -> String? in
+                    return "footer"
                 }
                 footer.heightFor = { _ -> CGFloat? in
                     return 32

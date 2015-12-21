@@ -162,5 +162,74 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.heightFor(0), 31)
     }
     
+    func testConfigureHeaderFooterTitle() {
+        let section = Section()
+        
+        let constantHeaderTitle = "header title"
+        let constantFooterTitle = "footer title"
+        let variableHeaderTitle = "header title for"
+        let variableFooterTitle = "footer title for"
+        
+        // Initialized
+        XCTAssertEqual((section.header as? SectionHeaderFooterDelegateType)?.titleFor(0), nil)
+        XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(0), nil)
+        
+        // Constant
+        section.createHeader { header in
+            header.title = constantHeaderTitle
+        }
+        section.createFooter { footer in
+            footer.title = constantFooterTitle
+        }
+        XCTAssertEqual((section.header as? SectionHeaderFooterDelegateType)?.titleFor(0), constantHeaderTitle)
+        XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(0), constantFooterTitle)
+        
+        // Title for
+        section.createHeader { header in
+            header.titleFor = { _ -> String? in
+                return variableHeaderTitle
+            }
+        }
+        section.createFooter { footer in
+            footer.titleFor = { _ -> String? in
+                return variableFooterTitle
+            }
+        }
+        XCTAssertEqual((section.header as? SectionHeaderFooterDelegateType)?.titleFor(0), variableHeaderTitle)
+        XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(0), variableFooterTitle)
+        
+        // Both
+        section.createHeader { header in
+            header.title = constantHeaderTitle
+            header.titleFor = { _ -> String? in
+                return variableHeaderTitle
+            }
+        }
+        section.createFooter { footer in
+            footer.title = constantFooterTitle
+            footer.titleFor = { _ -> String? in
+                return variableFooterTitle
+            }
+        }
+        XCTAssertEqual((section.header as? SectionHeaderFooterDelegateType)?.titleFor(0), variableHeaderTitle)
+        XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(0), variableFooterTitle)
+        
+        // Title for nil
+        section.createHeader { header in
+            header.title = constantHeaderTitle
+            header.titleFor = { _ -> String? in
+                return nil
+            }
+        }
+        section.createFooter { footer in
+            footer.title = constantFooterTitle
+            footer.titleFor = { _ -> String? in
+                return nil
+            }
+        }
+        XCTAssertEqual((section.header as? SectionHeaderFooterDelegateType)?.titleFor(0), constantHeaderTitle)
+        XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(0), constantFooterTitle)
+    }
+    
 }
 
