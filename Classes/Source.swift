@@ -20,8 +20,6 @@ public class Source: NSObject {
         closure(self)
     }
     
-    var didMoveRow: ((NSIndexPath, NSIndexPath) -> Void)?
-    
     public func addSection(section: SectionType) -> Self {
         sections.append(section)
         return self
@@ -57,11 +55,6 @@ public extension Source {
     
     public func sectionFor(indexPath: NSIndexPath) -> SectionType {
         return sectionFor(indexPath.section)
-    }
-    
-    public func moveRow(sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) {
-        let row = sectionFor(sourceIndexPath).removeRow(sourceIndexPath.row)
-        sectionFor(destinationIndexPath).insertRow(row, index: destinationIndexPath.row)
     }
 }
 
@@ -112,50 +105,6 @@ extension Source: UITableViewDataSource {
         }
         return sectionHeaderFooterTitleFor(footer, section: section)
     }
-    
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType {
-            return delegate.canEdit(indexPath)
-        }
-        return false
-    }
-    
-    public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType {
-            return delegate.canMove(indexPath)
-        }
-        return false
-    }
-    
-    public func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
-            return .None
-        }
-        return delegate.canRemove(indexPath) ? .Delete : .None
-    }
-    
-    public func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
-            return false
-        }
-        return delegate.canRemove(indexPath) ? true : false
-    }
-    
-    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
-            return
-        }
-        
-        switch editingStyle {
-        case .Delete:
-            sectionFor(indexPath).removeRow(indexPath.row)
-            let animation = delegate.willRemove(indexPath)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
-            delegate.didRemove(indexPath)
-        default:
-            break
-        }
-    }
 }
 
 // MARK: - Table view delegate
@@ -202,18 +151,6 @@ extension Source: UITableViewDelegate {
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.didEndDisplayCell(cell, indexPath: indexPath)
-    }
-    
-    public func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        moveRow(sourceIndexPath, destinationIndexPath: destinationIndexPath)
-        didMoveRow?(sourceIndexPath, destinationIndexPath)
-    }
-    
-    public func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
-        guard let row = sectionFor(sourceIndexPath).rowFor(sourceIndexPath) as? RowDelegateType else {
-            return sourceIndexPath
-        }
-        return row.canMoveTo(sourceIndexPath, destinationIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
     }
 }
 
