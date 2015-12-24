@@ -9,6 +9,9 @@
 import UIKit
 
 public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
+    public typealias SectionHeaderFooterEventType = (headerFooter: SectionHeaderFooter<Type>, tableView: UITableView, section: Int)
+    public typealias SectionHeaderFooterViewEventType = (headerFooter: SectionHeaderFooter<Type>, tableView: UITableView, view: Type, section: Int)
+    
     public init() { }
     
     public init(@noescape closure: (SectionHeaderFooter<Type> -> Void)) {
@@ -34,29 +37,29 @@ public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     public var height: CGFloat?
     public var title: String?
     
-    public var configureView: ((Type, Int) -> Void)?
-    public var heightFor: (Int -> CGFloat?)?
-    public var titleFor: (Int -> String?)?
-    public var createView: (Int -> Type?)?
+    public var configureView: (SectionHeaderFooterViewEventType -> Void)?
+    public var heightFor: (SectionHeaderFooterEventType -> CGFloat?)?
+    public var titleFor: (SectionHeaderFooterEventType -> String?)?
+    public var createView: (SectionHeaderFooterEventType -> Type?)?
 }
 
 extension SectionHeaderFooter: SectionHeaderFooterDelegateType {
-    func configureView(view: UIView, section: Int) {
+    func configureView(tableView: UITableView, view: UIView, section: Int) {
         guard let genericView = view as? Type else {
             fatalError()
         }
-        configureView?(genericView, section)
+        configureView?((self, tableView, genericView, section))
     }
     
-    func heightFor(section: Int) -> CGFloat? {
-        return heightFor?(section) ?? height
+    func heightFor(tableView: UITableView, section: Int) -> CGFloat? {
+        return heightFor?((self, tableView, section)) ?? height
     }
     
-    func titleFor(section: Int) -> String? {
-        return titleFor?(section) ?? title
+    func titleFor(tableView: UITableView, section: Int) -> String? {
+        return titleFor?((self, tableView, section)) ?? title
     }
     
-    func viewFor(section: Int) -> UIView? {
-        return createView?(section)
+    func viewFor(tableView: UITableView, section: Int) -> UIView? {
+        return createView?((self, tableView, section))
     }
 }

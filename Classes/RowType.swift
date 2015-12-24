@@ -14,10 +14,10 @@ public protocol RowType {
 }
 
 protocol RowDelegateType {
-    func configureCell(cell: UITableViewCell, indexPath: NSIndexPath)
-    func heightFor(indexPath: NSIndexPath) -> CGFloat?
-    func didSelect(indexPath: NSIndexPath)
-    func didDeselect(indexPath: NSIndexPath)
-    func willDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath)
-    func didEndDisplayCell(cell: UITableViewCell, indexPath: NSIndexPath)
+    func configureCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)
+    func heightFor(tableView: UITableView, indexPath: NSIndexPath) -> CGFloat?
+    func didSelect(tableView: UITableView, indexPath: NSIndexPath)
+    func didDeselect(tableView: UITableView, indexPath: NSIndexPath)
+    func willDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)
+    func didEndDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)
 }

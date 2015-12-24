@@ -73,7 +73,7 @@ extension Source: UITableViewDataSource {
         let row = sectionFor(indexPath).rowFor(indexPath)
         let cell = tableView.dequeueReusableCellWithIdentifier(row.reuseIdentifier, forIndexPath: indexPath)
         if let delegate = row as? RowDelegateType {
-            delegate.configureCell(cell, indexPath: indexPath)
+            delegate.configureCell(tableView, cell: cell, indexPath: indexPath)
         }
         return cell
     }
@@ -96,14 +96,14 @@ extension Source: UITableViewDataSource {
         guard let header = sectionFor(section).header else {
             return nil
         }
-        return sectionHeaderFooterTitleFor(header, section: section)
+        return sectionHeaderFooterTitleFor(header, tableView: tableView, section: section)
     }
     
     public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         guard let footer = sectionFor(section).footer else {
             return nil
         }
-        return sectionHeaderFooterTitleFor(footer, section: section)
+        return sectionHeaderFooterTitleFor(footer, tableView: tableView, section: section)
     }
 }
 
@@ -113,7 +113,7 @@ extension Source: UITableViewDelegate {
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let row = sectionFor(indexPath).rowFor(indexPath)
         if let delegate = row as? RowDelegateType,
-            let height = delegate.heightFor(indexPath) {
+            let height = delegate.heightFor(tableView, indexPath: indexPath) {
                 return height
         }
         return tableView.rowHeight
@@ -123,34 +123,34 @@ extension Source: UITableViewDelegate {
         guard let header = sectionFor(section).header else {
             return 0
         }
-        return sectionHeaderFooterHeightFor(header, section: section) ?? tableView.sectionHeaderHeight
+        return sectionHeaderFooterHeightFor(header, tableView: tableView, section: section) ?? tableView.sectionHeaderHeight
     }
     
     public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         guard let footer = sectionFor(section).footer else {
             return 0
         }
-        return sectionHeaderFooterHeightFor(footer, section: section) ?? tableView.sectionFooterHeight
+        return sectionHeaderFooterHeightFor(footer, tableView: tableView, section: section) ?? tableView.sectionFooterHeight
     }
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.didSelect(indexPath)
+        row?.didSelect(tableView, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.didDeselect(indexPath)
+        row?.didDeselect(tableView, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.willDisplayCell(cell, indexPath: indexPath)
+        row?.willDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.didEndDisplayCell(cell, indexPath: indexPath)
+        row?.didEndDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
 }
 
@@ -158,27 +158,27 @@ extension Source: UITableViewDelegate {
 
 extension Source {
     private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
-        // Create view
-        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let view = delegate.viewFor(section) {
-                delegate.configureView(view, section: section)
-                return view
-        }
-        
         // Dequeue
         if let identifier = headerFooter.reuseIdentifier,
             let view = dequeueReusableView(tableView, identifier: identifier) {
                 if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
-                    delegate.configureView(view, section: section)
+                    delegate.configureView(tableView, view: view, section: section)
                 }
+                return view
+        }
+        
+        // Create view
+        if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
+            let view = delegate.viewFor(tableView, section: section) {
+                delegate.configureView(tableView, view: view, section: section)
                 return view
         }
         return nil
     }
     
-    private func sectionHeaderFooterTitleFor(headerFooter: SectionHeaderFooterType, section: Int) -> String? {
+    private func sectionHeaderFooterTitleFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> String? {
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let title = delegate.titleFor(section) {
+            let title = delegate.titleFor(tableView, section: section) {
                 return title
         }
         return nil
@@ -194,9 +194,9 @@ extension Source {
         return nil
     }
     
-    private func sectionHeaderFooterHeightFor(headerFooter: SectionHeaderFooterType, section: Int) -> CGFloat? {
+    private func sectionHeaderFooterHeightFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> CGFloat? {
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
-            let height = delegate.heightFor(section) {
+            let height = delegate.heightFor(tableView, section: section) {
                 return height
         }
         return nil

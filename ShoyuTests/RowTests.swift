@@ -30,7 +30,7 @@ class RowTests: XCTestCase {
         XCTAssertFalse(called)
         
         // Called
-        row.configureCell(UITableViewCell(), indexPath: NSIndexPath())
+        row.configureCell(UITableView(), cell: UITableViewCell(), indexPath: NSIndexPath())
         XCTAssert(called)
     }
     
@@ -38,17 +38,17 @@ class RowTests: XCTestCase {
         let row = Row()
         
         // Initialezed
-        XCTAssertEqual(row.heightFor(NSIndexPath()), nil)
+        XCTAssertEqual(row.heightFor(UITableView(), indexPath: NSIndexPath()), nil)
         
         // Constant
         row.height = 5
-        XCTAssertEqual(row.heightFor(NSIndexPath()), 5)
+        XCTAssertEqual(row.heightFor(UITableView(), indexPath: NSIndexPath()), 5)
         
         // Configure
         row.heightFor = { _ -> CGFloat? in
             return 10
         }
-        let height = row.heightFor(NSIndexPath())
+        let height = row.heightFor(UITableView(), indexPath: NSIndexPath())
         XCTAssertEqual(height, 10)
     }
     
@@ -63,7 +63,7 @@ class RowTests: XCTestCase {
         XCTAssertFalse(called)
         
         // Called
-        row.didSelect(NSIndexPath())
+        row.didSelect(UITableView(), indexPath: NSIndexPath())
         XCTAssert(called)
     }
     
@@ -72,10 +72,10 @@ class RowTests: XCTestCase {
         
         var called = false
         let row = Row<Cell>()
-        row.configureCell = { (cell: Cell, _) in
+        row.configureCell = { event in
             called = true
         }
-        row.configureCell(Cell(), indexPath: NSIndexPath())
+        row.configureCell(UITableView(), cell: Cell(), indexPath: NSIndexPath())
         XCTAssert(called)
     }
     
