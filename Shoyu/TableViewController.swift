@@ -25,16 +25,16 @@ class TableViewController: UIViewController {
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32
-                header.configureView = { view, _ in
-                    view.backgroundColor = UIColor.blueColor()
+                header.configureView = { event in
+                    event.view.backgroundColor = UIColor.blueColor()
                 }
             }
             section.createFooter { footer in
                 footer.createView = { [weak self] _ in
                     return self?.createView()
                 }
-                footer.configureView = { view, _ in
-                    view.backgroundColor = UIColor.orangeColor()
+                footer.configureView = { event in
+                    event.view.backgroundColor = UIColor.orangeColor()
                 }
                 footer.titleFor = { _ -> String? in
                     return "footer"
