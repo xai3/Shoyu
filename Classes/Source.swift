@@ -73,7 +73,7 @@ extension Source: UITableViewDataSource {
         let row = sectionFor(indexPath).rowFor(indexPath)
         let cell = tableView.dequeueReusableCellWithIdentifier(row.reuseIdentifier, forIndexPath: indexPath)
         if let delegate = row as? RowDelegateType {
-            delegate.configureCell(cell, indexPath: indexPath)
+            delegate.configureCell(tableView, cell: cell, indexPath: indexPath)
         }
         return cell
     }
@@ -113,7 +113,7 @@ extension Source: UITableViewDelegate {
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let row = sectionFor(indexPath).rowFor(indexPath)
         if let delegate = row as? RowDelegateType,
-            let height = delegate.heightFor(indexPath) {
+            let height = delegate.heightFor(tableView, indexPath: indexPath) {
                 return height
         }
         return tableView.rowHeight
@@ -135,22 +135,22 @@ extension Source: UITableViewDelegate {
     
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.didSelect(indexPath)
+        row?.didSelect(tableView, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.didDeselect(indexPath)
+        row?.didDeselect(tableView, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.willDisplayCell(cell, indexPath: indexPath)
+        row?.willDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
-        row?.didEndDisplayCell(cell, indexPath: indexPath)
+        row?.didEndDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
 }
 

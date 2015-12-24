@@ -104,8 +104,8 @@ class SourceTests: XCTestCase {
                 section.createHeader { header in }
                 section.createFooter { footer in }
                 section.createRows(1000) { (_, row: Row<Cell>) in
-                    row.configureCell = { cell, _ in
-                        cell.label.text = "text"
+                    row.configureCell = { event in
+                        event.cell.label.text = "text"
                     }
                     row.heightFor = { _ in
                         return 52

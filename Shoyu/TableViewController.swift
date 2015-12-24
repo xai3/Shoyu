@@ -58,21 +58,21 @@ class TableViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> (T, NSIndexPath) -> Void {
-        return { cell, _ in
-            cell.setupWith(DefaultTableViewCellModel(name: member))
+    private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> Row<T>.RowCellEventType -> Void {
+        return { event in
+            event.cell.setupWith(DefaultTableViewCellModel(name: member))
         }
     }
     
-    private func didSelectMember(member: Member) -> NSIndexPath -> Void {
-        return { [weak self] indexPath in
+    private func didSelectMember<T>(member: Member) -> Row<T>.RowEventType -> Void {
+        return { [weak self] event in
             self?.memberSelected(member)
         }
     }
     
-    private func configureCountCell<T: DefaultTableViewCell>(index: UInt) -> (T, NSIndexPath) -> Void {
-        return { cell, _ in
-            cell.nameLabel.text = String(index)
+    private func configureCountCell<T: DefaultTableViewCell>(index: UInt) -> Row<T>.RowCellEventType -> Void {
+        return { event in
+            event.cell.nameLabel.text = String(index)
         }
     }
     
