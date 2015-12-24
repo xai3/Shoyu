@@ -113,8 +113,8 @@ public class Row<CellType: UITableViewCell>: RowType {
 }
 ```
 
-`cell` is an argument of `configureCell` is the type specified in the generics.
-section header and section footer are also similar.
+`cell` in the arguments of `configureCell` is the type specified in the generics.
+Section header and section footer are also similar.
 
 ``` swift
 // Create generic row.
