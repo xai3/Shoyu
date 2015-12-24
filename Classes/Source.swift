@@ -115,14 +115,14 @@ extension Source: UITableViewDataSource {
     
     public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType {
-            return delegate.canEdit(indexPath)
+            return delegate.canEdit(tableView, indexPath: indexPath)
         }
         return false
     }
     
     public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType {
-            return delegate.canMove(indexPath)
+            return delegate.canMove(tableView, indexPath: indexPath)
         }
         return false
     }
@@ -131,14 +131,14 @@ extension Source: UITableViewDataSource {
         guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
             return .None
         }
-        return delegate.canRemove(indexPath) ? .Delete : .None
+        return delegate.canRemove(tableView, indexPath: indexPath) ? .Delete : .None
     }
     
     public func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
             return false
         }
-        return delegate.canRemove(indexPath) ? true : false
+        return delegate.canRemove(tableView, indexPath: indexPath) ? true : false
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -149,9 +149,9 @@ extension Source: UITableViewDataSource {
         switch editingStyle {
         case .Delete:
             sectionFor(indexPath).removeRow(indexPath.row)
-            let animation = delegate.willRemove(indexPath)
+            let animation = delegate.willRemove(tableView, indexPath: indexPath)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
-            delegate.didRemove(indexPath)
+            delegate.didRemove(tableView, indexPath: indexPath)
         default:
             break
         }
@@ -213,7 +213,7 @@ extension Source: UITableViewDelegate {
         guard let row = sectionFor(sourceIndexPath).rowFor(sourceIndexPath) as? RowDelegateType else {
             return sourceIndexPath
         }
-        return row.canMoveTo(sourceIndexPath, destinationIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
+        return row.canMoveTo(tableView, indexPath: sourceIndexPath, destinationIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
     }
 }
 

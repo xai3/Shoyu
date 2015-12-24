@@ -54,11 +54,14 @@ class TableViewController: UIViewController {
                 row.canMove = { _ -> Bool? in
                     return false
                 }
-                row.canMoveTo = { indexPath, destinationIndexPath -> Bool? in
-                    return indexPath.section == destinationIndexPath.section
+                row.canMoveTo = { event -> Bool? in
+                    return event.sourceIndexPath.section == event.destinationIndexPath.section
                 }
-                row.willRemove = { indexPath -> UITableViewRowAnimation? in
+                row.willRemove = { _ -> UITableViewRowAnimation? in
                     return .Left
+                }
+                row.didRemove = { event in
+                    print(event.row)
                 }
             }
             section.createRows(5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
