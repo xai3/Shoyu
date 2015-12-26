@@ -19,7 +19,7 @@ protocol RowDelegateType {
     func canEdit(tableView: UITableView, indexPath: NSIndexPath) -> Bool
     func canRemove(tableView: UITableView, indexPath: NSIndexPath) -> Bool
     func canMove(tableView: UITableView, indexPath: NSIndexPath) -> Bool
-    func canMoveTo(tableView: UITableView, indexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool
+    func canMoveTo(tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool
     func didSelect(tableView: UITableView, indexPath: NSIndexPath)
     func didDeselect(tableView: UITableView, indexPath: NSIndexPath)
     func willDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath)

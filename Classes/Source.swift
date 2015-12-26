@@ -213,7 +213,7 @@ extension Source: UITableViewDelegate {
         guard let row = sectionFor(sourceIndexPath).rowFor(sourceIndexPath) as? RowDelegateType else {
             return sourceIndexPath
         }
-        return row.canMoveTo(tableView, indexPath: sourceIndexPath, destinationIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
+        return row.canMoveTo(tableView, sourceIndexPath: sourceIndexPath, destinationIndexPath: proposedDestinationIndexPath) ? proposedDestinationIndexPath : sourceIndexPath
     }
 }
 

@@ -72,8 +72,8 @@ extension Row: RowDelegateType {
         return canMove?((self, tableView, indexPath)) ?? false
     }
     
-    func canMoveTo(tableView: UITableView, indexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool {
-        return canMoveTo?((self, tableView, indexPath, destinationIndexPath)) ?? false
+    func canMoveTo(tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool {
+        return canMoveTo?((self, tableView, sourceIndexPath, destinationIndexPath)) ?? false
     }
     
     func didSelect(tableView: UITableView, indexPath: NSIndexPath) {
