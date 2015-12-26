@@ -138,7 +138,7 @@ extension Source: UITableViewDataSource {
         guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
             return false
         }
-        return delegate.canRemove(tableView, indexPath: indexPath) ? true : false
+        return delegate.canRemove(tableView, indexPath: indexPath)
     }
     
     public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
