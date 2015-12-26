@@ -48,13 +48,13 @@ class TableViewController: UIViewController {
                 row.configureCell = configureMemberCell(member)
                 row.didSelect = didSelectMember(member)
                 
-                row.canRemove = { _ -> Bool? in
+                row.canRemove = { _ -> Bool in
                     return true
                 }
-                row.canMove = { _ -> Bool? in
+                row.canMove = { _ -> Bool in
                     return false
                 }
-                row.canMoveTo = { event -> Bool? in
+                row.canMoveTo = { event -> Bool in
                     return event.sourceIndexPath.section == event.destinationIndexPath.section
                 }
                 row.willRemove = { _ -> UITableViewRowAnimation? in

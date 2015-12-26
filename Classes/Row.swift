@@ -21,9 +21,9 @@ public class Row<T: UITableViewCell>: RowType {
     
     public var configureCell: (RowCellEventType -> Void)?
     public var heightFor: (RowEventType -> CGFloat?)?
-    public var canRemove: (RowEventType -> Bool?)?
-    public var canMove: (RowEventType -> Bool?)?
-    public var canMoveTo: (RowMoveToEventType -> Bool?)?
+    public var canRemove: (RowEventType -> Bool)?
+    public var canMove: (RowEventType -> Bool)?
+    public var canMoveTo: (RowMoveToEventType -> Bool)?
     public var didSelect: (RowEventType -> Void)?
     public var didDeselect: (RowEventType -> Void)?
     public var willDisplayCell: (RowCellEventType -> Void)?
