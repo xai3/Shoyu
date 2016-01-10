@@ -3,6 +3,7 @@
 [![Pod Version](http://img.shields.io/cocoapods/v/Shoyu.svg?style=flat)](http://cocoadocs.org/docsets/Shoyu/)
 [![Pod Platform](http://img.shields.io/cocoapods/p/Shoyu.svg?style=flat)](http://cocoadocs.org/docsets/Shoyu/)
 [![Pod License](http://img.shields.io/cocoapods/l/Shoyu.svg?style=flat)](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/yukiasai/Shoyu.svg?branch=master)](https://travis-ci.org/yukiasai/Shoyu)
 
 
 **Shoyu** is a library written in Swift to represent UITableView data structures.
