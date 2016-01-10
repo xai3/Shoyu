@@ -114,6 +114,44 @@ class SectionTests: XCTestCase {
         XCTAssertNotNil(section.footer)
     }
     
+    func testRemoveRow() {
+        let count = 10
+        let section = Section() { section in
+            section.createRows(UInt(count)) { index, row in
+                row.reuseIdentifier = String(index)
+            }
+        }
+        XCTAssertEqual(section.rowCount, count)
+        
+        // Remove
+        let removeIndex = 1
+        let row = section.removeRow(removeIndex)
+        XCTAssertNotNil(row)
+        XCTAssertEqual(section.rowCount, count - 1)
+        
+        // Validation
+        section.rows.forEach { row in
+            print(row.reuseIdentifier)
+            XCTAssertNotEqual(Int(row.reuseIdentifier), removeIndex)
+        }
+    }
+    
+    func testInsertRow() {
+        let count = 10
+        let section = Section() { section in
+            section.createRows(UInt(count)) { _, _ in }
+        }
+        XCTAssertEqual(section.rowCount, count)
+        
+        section.insertRow(Row() { $0.reuseIdentifier = "last" }, index: count)
+        section.insertRow(Row() { $0.reuseIdentifier = "first" }, index: 0)
+        
+        // Validation
+        XCTAssertEqual(section.rowCount, count + 2)
+        XCTAssertEqual(section.rows.first?.reuseIdentifier, "first")
+        XCTAssertEqual(section.rows.last?.reuseIdentifier, "last")
+    }
+    
     func testConfigureHeaderFooterHeight() {
         let section = Section()
         

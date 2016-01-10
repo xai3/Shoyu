@@ -47,6 +47,22 @@ class TableViewController: UIViewController {
                 row.height = 52
                 row.configureCell = configureMemberCell(member)
                 row.didSelect = didSelectMember(member)
+                
+                row.canRemove = { _ -> Bool in
+                    return true
+                }
+                row.canMove = { _ -> Bool in
+                    return false
+                }
+                row.canMoveTo = { event -> Bool in
+                    return event.sourceIndexPath.section == event.destinationIndexPath.section
+                }
+                row.willRemove = { _ -> UITableViewRowAnimation? in
+                    return .Left
+                }
+                row.didRemove = { event in
+                    print(event.row)
+                }
             }
             section.createRows(5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
                 row.heightFor = { _ -> CGFloat? in
@@ -56,6 +72,12 @@ class TableViewController: UIViewController {
             }
         }
         tableView.reloadData()
+        
+        tableView.source?.didMoveRow = {
+            print(String($0) + " " + String($1))
+        }
+        
+        tableView.setEditing(true, animated: true)
     }
     
     private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> Row<T>.RowCellEventType -> Void {

@@ -15,6 +15,9 @@ public protocol SectionType {
     var rowCount: Int { get }
     func rowFor(row: Int) -> RowType
     func rowFor(indexPath: NSIndexPath) -> RowType
+    
+    func removeRow(index: Int) -> RowType
+    func insertRow(row: RowType, index: Int)
 }
 
 extension SectionType {

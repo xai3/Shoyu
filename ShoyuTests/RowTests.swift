@@ -67,6 +67,80 @@ class RowTests: XCTestCase {
         XCTAssert(called)
     }
     
+    func testCanRemove() {
+        let row = Row()
+        XCTAssertFalse(row.canRemove(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canRemove = { event -> Bool in
+            return false
+        }
+        XCTAssertFalse(row.canRemove(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canRemove = { event -> Bool in
+            return true
+        }
+        XCTAssertTrue(row.canRemove(UITableView(), indexPath: NSIndexPath()))
+    }
+    
+    func testCanMove() {
+        let row = Row()
+        XCTAssertFalse(row.canMove(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canMove = { event -> Bool in
+            return false
+        }
+        XCTAssertFalse(row.canMove(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canMove = { event -> Bool in
+            return true
+        }
+        XCTAssertTrue(row.canMove(UITableView(), indexPath: NSIndexPath()))
+    }
+    
+    func testCanMoveTo() {
+        let row = Row()
+        XCTAssertFalse(row.canMoveTo(UITableView(), sourceIndexPath: NSIndexPath(), destinationIndexPath: NSIndexPath()))
+        
+        row.canMoveTo = { event -> Bool in
+            return false
+        }
+        XCTAssertFalse(row.canMoveTo(UITableView(), sourceIndexPath: NSIndexPath(), destinationIndexPath: NSIndexPath()))
+        
+        row.canMoveTo = { event -> Bool in
+            return true
+        }
+        XCTAssertTrue(row.canMoveTo(UITableView(), sourceIndexPath: NSIndexPath(), destinationIndexPath: NSIndexPath()))
+    }
+    
+    func testCanEdit() {
+        let row = Row()
+        XCTAssertFalse(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canRemove = { event -> Bool in
+            return false
+        }
+        row.canMove = { event -> Bool in
+            return false
+        }
+        XCTAssertFalse(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canRemove = { event -> Bool in
+            return true
+        }
+        row.canMove = { event -> Bool in
+            return false
+        }
+        XCTAssertTrue(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        
+        row.canRemove = { event -> Bool in
+            return false
+        }
+        row.canMove = { event -> Bool in
+            return true
+        }
+        XCTAssertTrue(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+    }
+    
     func testGenericRow() {
         class Cell: UITableViewCell { }
         
