@@ -129,7 +129,7 @@ section.createRows(members) { (member, row: Row<MemberTableViewCell>) in
 
 ## Row's delegate
 
-`Row` has some delegate methods. `configureCell`, `heightFor`, `didSelect` and so on.
+`Row` has some delegate methods.
 
 ```
 section.createRow { row in
@@ -150,6 +150,20 @@ section.createRow { row in
     }
 }
 ```
+
+### Supported delegate methods
+
+* configureCell
+* heightFor
+* canRemove
+* canMove
+* canMoveTo
+* didSelect
+* didDeselect
+* willDisplayCell
+* didEndDisplayCell
+* willRemove
+* didRemove
 
 ## License
 
