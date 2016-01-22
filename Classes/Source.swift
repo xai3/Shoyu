@@ -252,7 +252,7 @@ extension Source {
             return view
         }
         if let cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
-            return cell.contentView
+            return cell
         }
         return nil
     }
