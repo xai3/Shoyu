@@ -581,6 +581,7 @@
 				46F82E981C55B389009B0271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		46F82EB91C55B4EB009B0271 /* Build configuration list for PBXNativeTarget "ShoyuExample" */ = {
 			isa = XCConfigurationList;
@@ -589,6 +590,7 @@
 				46F82EBB1C55B4EB009B0271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
