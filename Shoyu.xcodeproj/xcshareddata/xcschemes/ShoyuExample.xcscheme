@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "46F82E901C55B389009B0271"
-               BuildableName = "Shoyu.framework"
-               BlueprintName = "Shoyu"
+               BlueprintIdentifier = "46F82EA91C55B4EB009B0271"
+               BuildableName = "ShoyuExample.app"
+               BlueprintName = "ShoyuExample"
                ReferencedContainer = "container:Shoyu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,33 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "46A77B621C1B49FB002618EF"
-               BuildableName = "Shoyu.xctest"
-               BlueprintName = "ShoyuTests"
-               ReferencedContainer = "container:Shoyu.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "46A77B6D1C1B49FB002618EF"
-               BuildableName = "Shoyu.xctest"
-               BlueprintName = "ShoyuUITests"
-               ReferencedContainer = "container:Shoyu.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "46F82E901C55B389009B0271"
-            BuildableName = "Shoyu.framework"
-            BlueprintName = "Shoyu"
+            BlueprintIdentifier = "46F82EA91C55B4EB009B0271"
+            BuildableName = "ShoyuExample.app"
+            BlueprintName = "ShoyuExample"
             ReferencedContainer = "container:Shoyu.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -75,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "46F82E901C55B389009B0271"
-            BuildableName = "Shoyu.framework"
-            BlueprintName = "Shoyu"
+            BlueprintIdentifier = "46F82EA91C55B4EB009B0271"
+            BuildableName = "ShoyuExample.app"
+            BlueprintName = "ShoyuExample"
             ReferencedContainer = "container:Shoyu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -94,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "46F82E901C55B389009B0271"
-            BuildableName = "Shoyu.framework"
-            BlueprintName = "Shoyu"
+            BlueprintIdentifier = "46F82EA91C55B4EB009B0271"
+            BuildableName = "ShoyuExample.app"
+            BlueprintName = "ShoyuExample"
             ReferencedContainer = "container:Shoyu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
