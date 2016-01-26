@@ -99,6 +99,23 @@ class SectionTests: XCTestCase {
         XCTAssertNotNil(section.footer)
     }
     
+    func testCreateHeaderGeneric() {
+        let section = Section() { (section: Section<UILabel, UIButton>) in
+            section.createHeader { header -> Void in
+                header.configureView = { label, info in
+                    label.text = "label"
+                }
+            }
+            section.createFooter { footer -> Void in
+                footer.configureView = { button, info in
+                    button.titleLabel!.text = "button"
+                }
+            }
+        }
+        XCTAssertNotNil(section.header)
+        XCTAssertNotNil(section.footer)
+    }
+    
     func testCreateRowsAndHeaderFooter() {
         let count = UInt(2)
         let items = [1, 2, 3]

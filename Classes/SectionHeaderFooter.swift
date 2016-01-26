@@ -9,8 +9,7 @@
 import UIKit
 
 public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
-    public typealias SectionHeaderFooterEventType = (headerFooter: SectionHeaderFooter<Type>, tableView: UITableView, section: Int)
-    public typealias SectionHeaderFooterViewEventType = (headerFooter: SectionHeaderFooter<Type>, tableView: UITableView, view: Type, section: Int)
+    public typealias SectionHeaderFooterInformation = (headerFooter: SectionHeaderFooter<Type>, tableView: UITableView, section: Int)
     
     public init() { }
     
@@ -37,10 +36,10 @@ public class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
     public var height: CGFloat?
     public var title: String?
     
-    public var configureView: (SectionHeaderFooterViewEventType -> Void)?
-    public var heightFor: (SectionHeaderFooterEventType -> CGFloat?)?
-    public var titleFor: (SectionHeaderFooterEventType -> String?)?
-    public var createView: (SectionHeaderFooterEventType -> Type?)?
+    public var configureView: ((Type, SectionHeaderFooterInformation) -> Void)?
+    public var heightFor: (SectionHeaderFooterInformation -> CGFloat?)?
+    public var titleFor: (SectionHeaderFooterInformation -> String?)?
+    public var createView: (SectionHeaderFooterInformation -> Type?)?
 }
 
 extension SectionHeaderFooter: SectionHeaderFooterDelegateType {
@@ -48,7 +47,7 @@ extension SectionHeaderFooter: SectionHeaderFooterDelegateType {
         guard let genericView = view as? Type else {
             fatalError()
         }
-        configureView?((self, tableView, genericView, section))
+        configureView?(genericView, (self, tableView, section))
     }
     
     func heightFor(tableView: UITableView, section: Int) -> CGFloat? {

@@ -9,9 +9,8 @@
 import UIKit
 
 public class Row<T: UITableViewCell>: RowType {
-    public typealias RowEventType = (row: Row<T>, tableView: UITableView, indexPath: NSIndexPath)
-    public typealias RowCellEventType = (row: Row<T>, tableView: UITableView, cell: T, indexPath: NSIndexPath)
-    public typealias RowMoveToEventType = (row: Row<T>, tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath)
+    public typealias RowInformation = (row: Row<T>, tableView: UITableView, indexPath: NSIndexPath)
+    public typealias RowMoveInformation = (row: Row<T>, tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath)
     
     init() { }
     
@@ -19,17 +18,17 @@ public class Row<T: UITableViewCell>: RowType {
         closure(self)
     }
     
-    public var configureCell: (RowCellEventType -> Void)?
-    public var heightFor: (RowEventType -> CGFloat?)?
-    public var canRemove: (RowEventType -> Bool)?
-    public var canMove: (RowEventType -> Bool)?
-    public var canMoveTo: (RowMoveToEventType -> Bool)?
-    public var didSelect: (RowEventType -> Void)?
-    public var didDeselect: (RowEventType -> Void)?
-    public var willDisplayCell: (RowCellEventType -> Void)?
-    public var didEndDisplayCell: (RowCellEventType -> Void)?
-    public var willRemove: (RowEventType -> UITableViewRowAnimation?)?
-    public var didRemove: (RowEventType -> Void)?
+    public var configureCell: ((T, RowInformation) -> Void)?
+    public var heightFor: (RowInformation -> CGFloat?)?
+    public var canRemove: (RowInformation -> Bool)?
+    public var canMove: (RowInformation -> Bool)?
+    public var canMoveTo: (RowMoveInformation -> Bool)?
+    public var didSelect: (RowInformation -> Void)?
+    public var didDeselect: (RowInformation -> Void)?
+    public var willDisplayCell: ((T, RowInformation) -> Void)?
+    public var didEndDisplayCell: ((T, RowInformation) -> Void)?
+    public var willRemove: (RowInformation -> UITableViewRowAnimation?)?
+    public var didRemove: (RowInformation -> Void)?
     
     private var _reuseIdentifier: String?
     public var reuseIdentifier: String {
@@ -53,7 +52,7 @@ extension Row: RowDelegateType {
         guard let genericCell = cell as? T else {
             fatalError()
         }
-        configureCell?((self, tableView, genericCell, indexPath))
+        configureCell?(genericCell, (self, tableView, indexPath))
     }
     
     func heightFor(tableView: UITableView, indexPath: NSIndexPath) -> CGFloat? {
@@ -88,14 +87,14 @@ extension Row: RowDelegateType {
         guard let genericCell = cell as? T else {
             fatalError()
         }
-        willDisplayCell?((self, tableView, genericCell, indexPath))
+        willDisplayCell?(genericCell, (self, tableView, indexPath))
     }
     
     func didEndDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
-        didEndDisplayCell?((self, tableView, genericCell, indexPath))
+        didEndDisplayCell?(genericCell, (self, tableView, indexPath))
     }
     
     func willRemove(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewRowAnimation {
