@@ -9,7 +9,7 @@
 import UIKit
 
 public class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
-    var rows: [RowType] = []
+    public private(set) var rows: [RowType] = []
     
     public var header: SectionHeaderFooterType?
     public var footer: SectionHeaderFooterType?

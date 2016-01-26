@@ -9,7 +9,7 @@
 import UIKit
 
 public class Source: NSObject {
-    internal var sections = [SectionType]()
+    public private(set) var sections = [SectionType]()
     
     public override init() {
         super.init()
