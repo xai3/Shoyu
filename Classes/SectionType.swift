@@ -9,6 +9,8 @@
 import UIKit
 
 public protocol SectionType {
+    var rows: [RowType] { get }
+    
     var header: SectionHeaderFooterType? { get }
     var footer: SectionHeaderFooterType? { get }
     
@@ -18,8 +20,4 @@ public protocol SectionType {
     
     func removeRow(index: Int) -> RowType
     func insertRow(row: RowType, index: Int)
-}
-
-extension SectionType {
-    var rows: [RowType] { return [] }
 }
