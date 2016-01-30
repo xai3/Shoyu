@@ -69,20 +69,20 @@ extension Section {
     }
     
     public func createHeader(@noescape closure: (SectionHeaderFooter<HeaderType> -> Void)) -> Self {
-        return createHaederFooter { (header: SectionHeaderFooter<HeaderType>) in
+        return createHeaderFooter { (header: SectionHeaderFooter<HeaderType>) in
             self.header = header
             closure(header)
         }
     }
     
     public func createFooter(@noescape closure: (SectionHeaderFooter<FooterType> -> Void)) -> Self {
-        return createHaederFooter { (footer: SectionHeaderFooter<FooterType>) in
+        return createHeaderFooter { (footer: SectionHeaderFooter<FooterType>) in
             self.footer = footer
             closure(footer)
         }
     }
     
-    private func createHaederFooter<T>(@noescape closure:(SectionHeaderFooter<T> -> Void)) -> Self {
+    private func createHeaderFooter<T>(@noescape closure:(SectionHeaderFooter<T> -> Void)) -> Self {
         closure(SectionHeaderFooter<T>())
         return self
     }
