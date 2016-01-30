@@ -25,16 +25,16 @@ class TableViewController: UIViewController {
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32
-                header.configureView = { event in
-                    event.view.backgroundColor = UIColor.blueColor()
+                header.configureView = { view, _ in
+                    view.backgroundColor = UIColor.blueColor()
                 }
             }
             section.createFooter { footer in
                 footer.createView = { [weak self] _ in
                     return self?.createView()
                 }
-                footer.configureView = { event in
-                    event.view.backgroundColor = UIColor.orangeColor()
+                footer.configureView = { view, _ in
+                    view.backgroundColor = UIColor.orangeColor()
                 }
                 footer.titleFor = { _ -> String? in
                     return "footer"
@@ -80,21 +80,21 @@ class TableViewController: UIViewController {
         tableView.setEditing(true, animated: true)
     }
     
-    private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> Row<T>.RowCellEventType -> Void {
-        return { event in
-            event.cell.setupWith(DefaultTableViewCellModel(name: member))
+    private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> (T, Row<T>.RowInformation) -> Void {
+        return { cell, _ in
+            cell.setupWith(DefaultTableViewCellModel(name: member))
         }
     }
     
-    private func didSelectMember<T>(member: Member) -> Row<T>.RowEventType -> Void {
-        return { [weak self] event in
+    private func didSelectMember<T>(member: Member) -> Row<T>.RowInformation -> Void {
+        return { [weak self] _ in
             self?.memberSelected(member)
         }
     }
     
-    private func configureCountCell<T: DefaultTableViewCell>(index: UInt) -> Row<T>.RowCellEventType -> Void {
-        return { event in
-            event.cell.nameLabel.text = String(index)
+    private func configureCountCell<T: DefaultTableViewCell>(index: UInt) -> (T, Row<T>.RowInformation) -> Void {
+        return { cell, _ in
+            cell.nameLabel.text = String(index)
         }
     }
     
