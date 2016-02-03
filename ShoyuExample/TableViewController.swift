@@ -21,20 +21,20 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.source = Source().createSection { (section: Section) in
+        tableView.source = Source().createSection { (section: Section<HeaderTableViewCell, FooterTableViewCell>) in
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32
-                header.configureView = { view, _ in
-                    view.backgroundColor = UIColor.blueColor()
+                header.configureView = { headerCell, _ in
+                    headerCell.contentView.backgroundColor = UIColor.blueColor()
                 }
             }
             section.createFooter { footer in
                 footer.createView = { [weak self] _ in
-                    return self?.createView()
+                    return self?.createViewForFooterCell()
                 }
-                footer.configureView = { view, _ in
-                    view.backgroundColor = UIColor.orangeColor()
+                footer.configureView = { footerCell, _ in
+                    footerCell.contentView.backgroundColor = UIColor.orangeColor()
                 }
                 footer.titleFor = { _ -> String? in
                     return "footer"
@@ -106,13 +106,13 @@ class TableViewController: UIViewController {
         print("TableViewController deinit")
     }
     
-    private func createView() -> UIView {
-        let view = UIView()
+    private func createViewForFooterCell() -> FooterTableViewCell {
+        let cell = FooterTableViewCell()
         let label = UILabel(frame: CGRectMake(5, 5, 0, 0))
         label.text = "Custom view footer"
         label.sizeToFit()
-        view.addSubview(label)
-        return view
+        cell.contentView.addSubview(label)
+        return cell
     }
 
 }
@@ -128,6 +128,9 @@ class DefaultTableViewCell: UITableViewCell {
         print("DefaultTableViewCellModel deinit")
     }
 }
+
+class HeaderTableViewCell: UITableViewCell { }
+class FooterTableViewCell: UITableViewCell { }
 
 struct DefaultTableViewCellModel {
     var name: NameProtocol
