@@ -227,20 +227,20 @@ extension Source {
                 if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
                     delegate.configureView(tableView, view: view, section: section)
                 }
-                guard let cell = view as? UITableViewCell else {
-                    return view
+                if let cell = view as? UITableViewCell {
+                    return cell.contentView
                 }
-                return cell.contentView
+                return view
         }
         
         // Create view
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
             let view = delegate.viewFor(tableView, section: section) {
                 delegate.configureView(tableView, view: view, section: section)
-                guard let cell = view as? UITableViewCell else {
-                    return view
+                if let cell = view as? UITableViewCell {
+                    return cell.contentView
                 }
-                return cell.contentView
+                return view
         }
         return nil
     }
