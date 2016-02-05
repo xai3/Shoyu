@@ -20,7 +20,7 @@ public class Source: NSObject {
         closure(self)
     }
     
-    var didMoveRow: ((NSIndexPath, NSIndexPath) -> Void)?
+    public var didMoveRow: ((NSIndexPath, NSIndexPath) -> Void)?
     
     public func addSection(section: SectionType) -> Self {
         sections.append(section)
