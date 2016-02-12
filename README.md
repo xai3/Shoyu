@@ -8,7 +8,7 @@
 
 **Shoyu** is a library written in Swift to represent UITableView data structures.
 
-Shoyu means Soy Source in Japanese.
+Shoyu means Soy Sauce in Japanese.
 
 ## Usege
 
