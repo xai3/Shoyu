@@ -14,7 +14,7 @@ public class Row<T: UITableViewCell>: RowType {
     
     public init() { }
     
-    init(@noescape closure: (Row<T> -> Void)) {
+    public init(@noescape closure: (Row<T> -> Void)) {
         closure(self)
     }
     
