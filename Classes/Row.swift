@@ -12,7 +12,7 @@ public class Row<T: UITableViewCell>: RowType {
     public typealias RowInformation = (row: Row<T>, tableView: UITableView, indexPath: NSIndexPath)
     public typealias RowMoveInformation = (row: Row<T>, tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath)
     
-    init() { }
+    public init() { }
     
     init(@noescape closure: (Row<T> -> Void)) {
         closure(self)
