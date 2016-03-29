@@ -21,20 +21,20 @@ class TableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.source = Source().createSection { (section: Section) in
+        tableView.source = Source().createSection { (section: Section<HeaderTableViewCell, FooterTableViewCell>) in
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32
-                header.configureView = { event in
-                    event.view.backgroundColor = UIColor.blueColor()
+                header.configureView = { headerCell, _ in
+                    headerCell.contentView.backgroundColor = UIColor.blueColor()
                 }
             }
             section.createFooter { footer in
                 footer.createView = { [weak self] _ in
-                    return self?.createView()
+                    return self?.createViewForFooterCell()
                 }
-                footer.configureView = { event in
-                    event.view.backgroundColor = UIColor.orangeColor()
+                footer.configureView = { footerCell, _ in
+                    footerCell.contentView.backgroundColor = UIColor.orangeColor()
                 }
                 footer.titleFor = { _ -> String? in
                     return "footer"
@@ -80,21 +80,21 @@ class TableViewController: UIViewController {
         tableView.setEditing(true, animated: true)
     }
     
-    private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> Row<T>.RowCellEventType -> Void {
-        return { event in
-            event.cell.setupWith(DefaultTableViewCellModel(name: member))
+    private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> (T, Row<T>.RowInformation) -> Void {
+        return { cell, _ in
+            cell.setupWith(DefaultTableViewCellModel(name: member))
         }
     }
     
-    private func didSelectMember<T>(member: Member) -> Row<T>.RowEventType -> Void {
-        return { [weak self] event in
+    private func didSelectMember<T>(member: Member) -> Row<T>.RowInformation -> Void {
+        return { [weak self] _ in
             self?.memberSelected(member)
         }
     }
     
-    private func configureCountCell<T: DefaultTableViewCell>(index: UInt) -> Row<T>.RowCellEventType -> Void {
-        return { event in
-            event.cell.nameLabel.text = String(index)
+    private func configureCountCell<T: DefaultTableViewCell>(index: UInt) -> (T, Row<T>.RowInformation) -> Void {
+        return { cell, _ in
+            cell.nameLabel.text = String(index)
         }
     }
     
@@ -106,13 +106,13 @@ class TableViewController: UIViewController {
         print("TableViewController deinit")
     }
     
-    private func createView() -> UIView {
-        let view = UIView()
+    private func createViewForFooterCell() -> FooterTableViewCell {
+        let cell = FooterTableViewCell()
         let label = UILabel(frame: CGRectMake(5, 5, 0, 0))
         label.text = "Custom view footer"
         label.sizeToFit()
-        view.addSubview(label)
-        return view
+        cell.contentView.addSubview(label)
+        return cell
     }
 
 }
@@ -128,6 +128,9 @@ class DefaultTableViewCell: UITableViewCell {
         print("DefaultTableViewCellModel deinit")
     }
 }
+
+class HeaderTableViewCell: UITableViewCell { }
+class FooterTableViewCell: UITableViewCell { }
 
 struct DefaultTableViewCellModel {
     var name: NameProtocol
