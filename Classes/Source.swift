@@ -22,6 +22,10 @@ public class Source: NSObject {
     
     public var didMoveRow: ((NSIndexPath, NSIndexPath) -> Void)?
     
+    func isPermitIndexPath(indexPath: NSIndexPath) -> Bool {
+        return sections.count > indexPath.section && sections[indexPath.section].rows.count > indexPath.row
+    }
+    
     public func addSection(section: SectionType) -> Self {
         sections.append(section)
         return self
@@ -200,6 +204,9 @@ extension Source: UITableViewDelegate {
     }
     
     public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if !isPermitIndexPath(indexPath) {
+            return
+        }
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.didEndDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
