@@ -120,6 +120,23 @@ class SourceTests: XCTestCase {
         XCTAssertEqual(source.sectionFor(destinationIndexPath).rowFor(destinationIndexPath).reuseIdentifier, reuserIdentifierFromIndexPath(sourceIndexPath))
     }
     
+    func testPermitIndexPath() {
+        let rowLimit = UInt(10)
+        let sectionLimit = UInt(10)
+        
+        let source = Source() { source in
+            source.createSections(sectionLimit) { _, section in
+                section.createRows(rowLimit) { _ in }
+            }
+        }
+        
+        let notFailIndexPath = NSIndexPath(forRow: Int(rowLimit - 1), inSection: Int(sectionLimit - 1))
+        XCTAssertTrue(source.isPermitIndexPath(notFailIndexPath))
+        
+        let failIndexPath = NSIndexPath(forRow: Int(rowLimit), inSection: Int(sectionLimit))
+        XCTAssertFalse(source.isPermitIndexPath(failIndexPath))
+    }
+    
     func testBenchmarkSource() {
         class HeaderView: UIView { }
         class FooterView: UIView { }
