@@ -10,7 +10,7 @@
 
 Shoyu means Soy Sauce in Japanese.
 
-## Usege
+## Usage
 
 ### Create single section and single row
 
