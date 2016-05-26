@@ -234,9 +234,6 @@ extension Source {
                 if let delegate = headerFooter as? SectionHeaderFooterDelegateType {
                     delegate.configureView(tableView, view: view, section: section)
                 }
-                if let cell = view as? UITableViewCell {
-                    return cell.contentView
-                }
                 return view
         }
         
@@ -244,9 +241,6 @@ extension Source {
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
             let view = delegate.viewFor(tableView, section: section) {
                 delegate.configureView(tableView, view: view, section: section)
-                if let cell = view as? UITableViewCell {
-                    return cell.contentView
-                }
                 return view
         }
         return nil
