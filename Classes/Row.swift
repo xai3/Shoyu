@@ -91,10 +91,12 @@ extension Row: RowDelegateType {
     }
     
     func didEndDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath) {
-        guard let genericCell = cell as? T else {
-            fatalError()
-        }
-        didEndDisplayCell?(genericCell, (self, tableView, indexPath))
+		if let didEndDisplayCell = didEndDisplayCell {
+			guard let genericCell = cell as? T else {
+				fatalError()
+			}
+			didEndDisplayCell(genericCell, (self, tableView, indexPath))
+		}
     }
     
     func willRemove(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewRowAnimation {

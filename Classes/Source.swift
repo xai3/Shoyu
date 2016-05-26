@@ -51,7 +51,10 @@ public class Source: NSObject {
     public func createSections<H, F>(count: UInt, @noescape closure: ((UInt, Section<H, F>) -> Void)) -> Self {
         return createSections([UInt](0..<count), closure: closure)
     }
-    
+    	
+	public func deleteSection(section: Int) {
+		sections.removeAtIndex(section)
+	}
 }
 
 public extension Source {
