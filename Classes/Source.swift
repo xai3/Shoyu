@@ -8,39 +8,39 @@
 
 import UIKit
 
-public class Source: NSObject {
-    public private(set) var sections = [SectionType]()
+open class Source: NSObject {
+    open fileprivate(set) var sections = [SectionType]()
     
     public override init() {
         super.init()
     }
     
-    public convenience init(@noescape closure: (Source -> Void)) {
+    public convenience init(closure: ((Source) -> Void)) {
         self.init()
         closure(self)
     }
     
-    public var didMoveRow: ((NSIndexPath, NSIndexPath) -> Void)?
+    open var didMoveRow: ((IndexPath, IndexPath) -> Void)?
     
-    func isPermitIndexPath(indexPath: NSIndexPath) -> Bool {
-        return sections.count > indexPath.section && sections[indexPath.section].rows.count > indexPath.row
+    func isPermitIndexPath(_ indexPath: IndexPath) -> Bool {
+        return sections.count > (indexPath as NSIndexPath).section && sections[(indexPath as NSIndexPath).section].rows.count > (indexPath as NSIndexPath).row
     }
     
-    public func addSection(section: SectionType) -> Self {
+    open func addSection(_ section: SectionType) -> Self {
         sections.append(section)
         return self
     }
     
-    public func addSections(sections: [SectionType]) -> Self {
-        self.sections.appendContentsOf(sections)
+    open func addSections(_ sections: [SectionType]) -> Self {
+        self.sections.append(contentsOf: sections)
         return self
     }
     
-    public func createSection<H, F>(@noescape closure: (Section<H, F> -> Void)) -> Self {
+    open func createSection<H, F>(_ closure: ((Section<H, F>) -> Void)) -> Self {
         return addSection(Section<H, F>() { closure($0) })
     }
     
-    public func createSections<H, F, E>(elements: [E], @noescape closure: ((E, Section<H, F>) -> Void)) -> Self {
+    open func createSections<H, F, E>(_ elements: [E], closure: ((E, Section<H, F>) -> Void)) -> Self {
         return addSections(
             elements.map { element -> Section<H, F> in
                 return Section<H, F>() { closure(element, $0) }
@@ -48,113 +48,113 @@ public class Source: NSObject {
         )
     }
     
-    public func createSections<H, F>(count: UInt, @noescape closure: ((UInt, Section<H, F>) -> Void)) -> Self {
+    open func createSections<H, F>(_ count: UInt, closure: ((UInt, Section<H, F>) -> Void)) -> Self {
         return createSections([UInt](0..<count), closure: closure)
     }
     
 }
 
 public extension Source {
-    public func sectionFor(section: Int) -> SectionType {
+    public func sectionFor(_ section: Int) -> SectionType {
         return sections[section]
     }
     
-    public func sectionFor(indexPath: NSIndexPath) -> SectionType {
-        return sectionFor(indexPath.section)
+    public func sectionFor(_ indexPath: IndexPath) -> SectionType {
+        return sectionFor((indexPath as NSIndexPath).section)
     }
     
-    public func moveRow(sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) {
-        let row = sectionFor(sourceIndexPath).removeRow(sourceIndexPath.row)
-        sectionFor(destinationIndexPath).insertRow(row, index: destinationIndexPath.row)
+    public func moveRow(_ sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
+        let row = sectionFor(sourceIndexPath).removeRow((sourceIndexPath as NSIndexPath).row)
+        sectionFor(destinationIndexPath).insertRow(row, index: (destinationIndexPath as NSIndexPath).row)
     }
 }
 
 // MARK: - Table view data source
 
 extension Source: UITableViewDataSource {
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sectionFor(section).rowCount
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = sectionFor(indexPath).rowFor(indexPath)
-        let cell = tableView.dequeueReusableCellWithIdentifier(row.reuseIdentifier, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: row.reuseIdentifier, for: indexPath)
         if let delegate = row as? RowDelegateType {
             delegate.configureCell(tableView, cell: cell, indexPath: indexPath)
         }
         return cell
     }
     
-    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = sectionFor(section).header else {
             return nil
         }
         return sectionHeaderFooterViewFor(header, tableView: tableView, section: section)
     }
     
-    public func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         guard let footer = sectionFor(section).footer else {
             return nil
         }
         return sectionHeaderFooterViewFor(footer, tableView: tableView, section: section)
     }
     
-    public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let header = sectionFor(section).header else {
             return nil
         }
         return sectionHeaderFooterTitleFor(header, tableView: tableView, section: section)
     }
     
-    public func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         guard let footer = sectionFor(section).footer else {
             return nil
         }
         return sectionHeaderFooterTitleFor(footer, tableView: tableView, section: section)
     }
     
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType {
             return delegate.canEdit(tableView, indexPath: indexPath)
         }
         return false
     }
     
-    public func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         if let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType {
             return delegate.canMove(tableView, indexPath: indexPath)
         }
         return false
     }
     
-    public func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+    @objc(tableView:editingStyleForRowAtIndexPath:) public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
-            return .None
+            return .none
         }
-        return delegate.canRemove(tableView, indexPath: indexPath) ? .Delete : .None
+        return delegate.canRemove(tableView, indexPath: indexPath) ? .delete : .none
     }
     
-    public func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    @objc(tableView:shouldIndentWhileEditingRowAtIndexPath:) public func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
             return false
         }
         return delegate.canRemove(tableView, indexPath: indexPath)
     }
     
-    public func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard let delegate = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType else {
             return
         }
         
         switch editingStyle {
-        case .Delete:
-            sectionFor(indexPath).removeRow(indexPath.row)
+        case .delete:
+            let _ = sectionFor(indexPath).removeRow((indexPath as NSIndexPath).row)
             let animation = delegate.willRemove(tableView, indexPath: indexPath)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: animation)
+            tableView.deleteRows(at: [indexPath], with: animation)
             delegate.didRemove(tableView, indexPath: indexPath)
         default:
             break
@@ -165,7 +165,7 @@ extension Source: UITableViewDataSource {
 // MARK: - Table view delegate
 
 extension Source: UITableViewDelegate {
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let row = sectionFor(indexPath).rowFor(indexPath)
         if let delegate = row as? RowDelegateType,
             let height = delegate.heightFor(tableView, indexPath: indexPath) {
@@ -174,36 +174,36 @@ extension Source: UITableViewDelegate {
         return tableView.rowHeight
     }
     
-    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let header = sectionFor(section).header else {
             return 0
         }
         return sectionHeaderFooterHeightFor(header, tableView: tableView, section: section) ?? tableView.sectionHeaderHeight
     }
     
-    public func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         guard let footer = sectionFor(section).footer else {
             return 0
         }
         return sectionHeaderFooterHeightFor(footer, tableView: tableView, section: section) ?? tableView.sectionFooterHeight
     }
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.didSelect(tableView, indexPath: indexPath)
     }
     
-    public func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.didDeselect(tableView, indexPath: indexPath)
     }
     
-    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let row = sectionFor(indexPath).rowFor(indexPath) as? RowDelegateType
         row?.willDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
     
-    public func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if !isPermitIndexPath(indexPath) {
             return
         }
@@ -211,12 +211,12 @@ extension Source: UITableViewDelegate {
         row?.didEndDisplayCell(tableView, cell: cell, indexPath: indexPath)
     }
     
-    public func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    @objc(tableView:moveRowAtIndexPath:toIndexPath:) public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         moveRow(sourceIndexPath, destinationIndexPath: destinationIndexPath)
         didMoveRow?(sourceIndexPath, destinationIndexPath)
     }
     
-    public func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
+    public func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
         guard let row = sectionFor(sourceIndexPath).rowFor(sourceIndexPath) as? RowDelegateType else {
             return sourceIndexPath
         }
@@ -227,7 +227,7 @@ extension Source: UITableViewDelegate {
 // MARK: Private method
 
 extension Source {
-    private func sectionHeaderFooterViewFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
+    fileprivate func sectionHeaderFooterViewFor(_ headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> UIView? {
         // Dequeue
         if let identifier = headerFooter.reuseIdentifier,
             let view = dequeueReusableView(tableView, identifier: identifier) {
@@ -252,7 +252,7 @@ extension Source {
         return nil
     }
     
-    private func sectionHeaderFooterTitleFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> String? {
+    fileprivate func sectionHeaderFooterTitleFor(_ headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> String? {
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
             let title = delegate.titleFor(tableView, section: section) {
                 return title
@@ -260,17 +260,17 @@ extension Source {
         return nil
     }
     
-    private func dequeueReusableView(tableView: UITableView, identifier: String) -> UIView? {
-        if let view = tableView.dequeueReusableHeaderFooterViewWithIdentifier(identifier) {
+    fileprivate func dequeueReusableView(_ tableView: UITableView, identifier: String) -> UIView? {
+        if let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: identifier) {
             return view
         }
-        if let cell = tableView.dequeueReusableCellWithIdentifier(identifier) {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) {
             return cell
         }
         return nil
     }
     
-    private func sectionHeaderFooterHeightFor(headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> CGFloat? {
+    fileprivate func sectionHeaderFooterHeightFor(_ headerFooter: SectionHeaderFooterType, tableView: UITableView, section: Int) -> CGFloat? {
         if let delegate = headerFooter as? SectionHeaderFooterDelegateType,
             let height = delegate.heightFor(tableView, section: section) {
                 return height
