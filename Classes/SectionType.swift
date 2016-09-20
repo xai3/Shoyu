@@ -18,6 +18,6 @@ public protocol SectionType {
     func rowFor(_ row: Int) -> RowType
     func rowFor(_ indexPath: IndexPath) -> RowType
     
-    func removeRow(_ index: Int) -> RowType
+    @discardableResult func removeRow(_ index: Int) -> RowType
     func insertRow(_ row: RowType, index: Int)
 }

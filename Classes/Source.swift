@@ -26,21 +26,21 @@ open class Source: NSObject {
         return sections.count > (indexPath as NSIndexPath).section && sections[(indexPath as NSIndexPath).section].rows.count > (indexPath as NSIndexPath).row
     }
     
-    open func addSection(_ section: SectionType) -> Self {
+    @discardableResult open func addSection(_ section: SectionType) -> Self {
         sections.append(section)
         return self
     }
     
-    open func addSections(_ sections: [SectionType]) -> Self {
+    @discardableResult open func addSections(_ sections: [SectionType]) -> Self {
         self.sections.append(contentsOf: sections)
         return self
     }
     
-    open func createSection<H, F>(_ closure: ((Section<H, F>) -> Void)) -> Self {
+    @discardableResult open func createSection<H, F>(_ closure: ((Section<H, F>) -> Void)) -> Self {
         return addSection(Section<H, F>() { closure($0) })
     }
     
-    open func createSections<H, F, E>(_ elements: [E], closure: ((E, Section<H, F>) -> Void)) -> Self {
+    @discardableResult open func createSections<H, F, E>(_ elements: [E], closure: ((E, Section<H, F>) -> Void)) -> Self {
         return addSections(
             elements.map { element -> Section<H, F> in
                 return Section<H, F>() { closure(element, $0) }
@@ -48,7 +48,7 @@ open class Source: NSObject {
         )
     }
     
-    open func createSections<H, F>(_ count: UInt, closure: ((UInt, Section<H, F>) -> Void)) -> Self {
+    @discardableResult open func createSections<H, F>(_ count: UInt, closure: ((UInt, Section<H, F>) -> Void)) -> Self {
         return createSections([UInt](0..<count), closure: closure)
     }
     
