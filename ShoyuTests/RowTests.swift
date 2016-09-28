@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import Shoyu
 
 class RowTests: XCTestCase {
     
@@ -30,7 +29,7 @@ class RowTests: XCTestCase {
         XCTAssertFalse(called)
         
         // Called
-        row.configureCell(UITableView(), cell: UITableViewCell(), indexPath: NSIndexPath())
+        row.configureCell(UITableView(), cell: UITableViewCell(), indexPath: IndexPath())
         XCTAssert(called)
     }
     
@@ -38,17 +37,17 @@ class RowTests: XCTestCase {
         let row = Row()
         
         // Initialezed
-        XCTAssertEqual(row.heightFor(UITableView(), indexPath: NSIndexPath()), nil)
+        XCTAssertEqual(row.heightFor(UITableView(), indexPath: IndexPath()), nil)
         
         // Constant
         row.height = 5
-        XCTAssertEqual(row.heightFor(UITableView(), indexPath: NSIndexPath()), 5)
+        XCTAssertEqual(row.heightFor(UITableView(), indexPath: IndexPath()), 5)
         
         // Configure
         row.heightFor = { _ -> CGFloat? in
             return 10
         }
-        let height = row.heightFor(UITableView(), indexPath: NSIndexPath())
+        let height = row.heightFor(UITableView(), indexPath: IndexPath())
         XCTAssertEqual(height, 10)
     }
     
@@ -63,58 +62,58 @@ class RowTests: XCTestCase {
         XCTAssertFalse(called)
         
         // Called
-        row.didSelect(UITableView(), indexPath: NSIndexPath())
+        row.didSelect(UITableView(), indexPath: IndexPath())
         XCTAssert(called)
     }
     
     func testCanRemove() {
         let row = Row()
-        XCTAssertFalse(row.canRemove(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertFalse(row.canRemove(UITableView(), indexPath: IndexPath()))
         
         row.canRemove = { event -> Bool in
             return false
         }
-        XCTAssertFalse(row.canRemove(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertFalse(row.canRemove(UITableView(), indexPath: IndexPath()))
         
         row.canRemove = { event -> Bool in
             return true
         }
-        XCTAssertTrue(row.canRemove(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertTrue(row.canRemove(UITableView(), indexPath: IndexPath()))
     }
     
     func testCanMove() {
         let row = Row()
-        XCTAssertFalse(row.canMove(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertFalse(row.canMove(UITableView(), indexPath: IndexPath()))
         
         row.canMove = { event -> Bool in
             return false
         }
-        XCTAssertFalse(row.canMove(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertFalse(row.canMove(UITableView(), indexPath: IndexPath()))
         
         row.canMove = { event -> Bool in
             return true
         }
-        XCTAssertTrue(row.canMove(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertTrue(row.canMove(UITableView(), indexPath: IndexPath()))
     }
     
     func testCanMoveTo() {
         let row = Row()
-        XCTAssertFalse(row.canMoveTo(UITableView(), sourceIndexPath: NSIndexPath(), destinationIndexPath: NSIndexPath()))
+        XCTAssertFalse(row.canMoveTo(UITableView(), sourceIndexPath: IndexPath(), destinationIndexPath: IndexPath()))
         
         row.canMoveTo = { event -> Bool in
             return false
         }
-        XCTAssertFalse(row.canMoveTo(UITableView(), sourceIndexPath: NSIndexPath(), destinationIndexPath: NSIndexPath()))
+        XCTAssertFalse(row.canMoveTo(UITableView(), sourceIndexPath: IndexPath(), destinationIndexPath: IndexPath()))
         
         row.canMoveTo = { event -> Bool in
             return true
         }
-        XCTAssertTrue(row.canMoveTo(UITableView(), sourceIndexPath: NSIndexPath(), destinationIndexPath: NSIndexPath()))
+        XCTAssertTrue(row.canMoveTo(UITableView(), sourceIndexPath: IndexPath(), destinationIndexPath: IndexPath()))
     }
     
     func testCanEdit() {
         let row = Row()
-        XCTAssertFalse(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertFalse(row.canEdit(UITableView(), indexPath: IndexPath()))
         
         row.canRemove = { event -> Bool in
             return false
@@ -122,7 +121,7 @@ class RowTests: XCTestCase {
         row.canMove = { event -> Bool in
             return false
         }
-        XCTAssertFalse(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertFalse(row.canEdit(UITableView(), indexPath: IndexPath()))
         
         row.canRemove = { event -> Bool in
             return true
@@ -130,7 +129,7 @@ class RowTests: XCTestCase {
         row.canMove = { event -> Bool in
             return false
         }
-        XCTAssertTrue(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertTrue(row.canEdit(UITableView(), indexPath: IndexPath()))
         
         row.canRemove = { event -> Bool in
             return false
@@ -138,7 +137,7 @@ class RowTests: XCTestCase {
         row.canMove = { event -> Bool in
             return true
         }
-        XCTAssertTrue(row.canEdit(UITableView(), indexPath: NSIndexPath()))
+        XCTAssertTrue(row.canEdit(UITableView(), indexPath: IndexPath()))
     }
     
     func testGenericRow() {
@@ -149,7 +148,7 @@ class RowTests: XCTestCase {
         row.configureCell = { event in
             called = true
         }
-        row.configureCell(UITableView(), cell: Cell(), indexPath: NSIndexPath())
+        row.configureCell(UITableView(), cell: Cell(), indexPath: IndexPath())
         XCTAssert(called)
     }
     

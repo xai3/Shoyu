@@ -22,19 +22,19 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.source = Source().createSection { (section: Section<HeaderTableViewCell, FooterTableViewCell>) in
-            section.createHeader { header in
+            let _ = section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32
                 header.configureView = { headerCell, _ in
-                    headerCell.contentView.backgroundColor = UIColor.blueColor()
+                    headerCell.contentView.backgroundColor = UIColor.blue
                 }
             }
-            section.createFooter { footer in
+            .createFooter { footer in
                 footer.createView = { [weak self] _ in
                     return self?.createViewForFooterCell()
                 }
                 footer.configureView = { footerCell, _ in
-                    footerCell.contentView.backgroundColor = UIColor.orangeColor()
+                    footerCell.contentView.backgroundColor = UIColor.orange
                 }
                 footer.titleFor = { _ -> String? in
                     return "footer"
@@ -43,10 +43,10 @@ class TableViewController: UIViewController {
                     return 32
                 }
             }
-            section.createRows(members) { (member: Member, row: Row<DefaultTableViewCell>) in
+            .createRows(for: members) { (member: Member, row: Row<DefaultTableViewCell>) in
                 row.height = 52
-                row.configureCell = configureMemberCell(member)
-                row.didSelect = didSelectMember(member)
+                row.configureCell = configureMemberCell(member: member)
+                row.didSelect = didSelectMember(member: member)
                 
                 row.canRemove = { _ -> Bool in
                     return true
@@ -58,23 +58,23 @@ class TableViewController: UIViewController {
                     return event.sourceIndexPath.section == event.destinationIndexPath.section
                 }
                 row.willRemove = { _ -> UITableViewRowAnimation? in
-                    return .Left
+                    return .left
                 }
                 row.didRemove = { event in
                     print(event.row)
                 }
             }
-            section.createRows(5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
+            .createRows(for: 5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
                 row.heightFor = { _ -> CGFloat? in
                     return 44
                 }
-                row.configureCell = configureCountCell(index)
+                row.configureCell = configureCountCell(index: index)
             }
         }
         tableView.reloadData()
         
         tableView.source?.didMoveRow = {
-            print(String($0) + " " + String($1))
+            print(String(describing: $0) + " " + String(describing: $1))
         }
         
         tableView.setEditing(true, animated: true)
@@ -82,13 +82,13 @@ class TableViewController: UIViewController {
     
     private func configureMemberCell<T: DefaultTableViewCell>(member: Member) -> (T, Row<T>.RowInformation) -> Void {
         return { cell, _ in
-            cell.setupWith(DefaultTableViewCellModel(name: member))
+            cell.setupWith(viewModel: DefaultTableViewCellModel(name: member))
         }
     }
     
-    private func didSelectMember<T>(member: Member) -> Row<T>.RowInformation -> Void {
+    private func didSelectMember<T>(member: Member) -> (Row<T>.RowInformation) -> Void {
         return { [weak self] _ in
-            self?.memberSelected(member)
+            self?.memberSelected(member: member)
         }
     }
     
@@ -108,7 +108,7 @@ class TableViewController: UIViewController {
     
     private func createViewForFooterCell() -> FooterTableViewCell {
         let cell = FooterTableViewCell()
-        let label = UILabel(frame: CGRectMake(5, 5, 0, 0))
+        let label = UILabel(frame: CGRect(x: 5, y: 5, width: 0, height: 0))
         label.text = "Custom view footer"
         label.sizeToFit()
         cell.contentView.addSubview(label)

@@ -15,9 +15,9 @@ public protocol SectionType {
     var footer: SectionHeaderFooterType? { get }
     
     var rowCount: Int { get }
-    func rowFor(row: Int) -> RowType
-    func rowFor(indexPath: NSIndexPath) -> RowType
+    func rowFor(_ row: Int) -> RowType
+    func rowFor(_ indexPath: IndexPath) -> RowType
     
-    func removeRow(index: Int) -> RowType
-    func insertRow(row: RowType, index: Int)
+    func removeRow(_ index: Int) -> RowType
+    func insertRow(_ row: RowType, index: Int)
 }
