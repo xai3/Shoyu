@@ -8,30 +8,30 @@
 
 import UIKit
 
-public class Row<T: UITableViewCell>: RowType {
-    public typealias RowInformation = (row: Row<T>, tableView: UITableView, indexPath: NSIndexPath)
-    public typealias RowMoveInformation = (row: Row<T>, tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath)
+open class Row<T: UITableViewCell>: RowType {
+    public typealias RowInformation = (row: Row<T>, tableView: UITableView, indexPath: IndexPath)
+    public typealias RowMoveInformation = (row: Row<T>, tableView: UITableView, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath)
     
     public init() { }
     
-    public init(@noescape closure: (Row<T> -> Void)) {
+    public init(closure: ((Row<T>) -> Void)) {
         closure(self)
     }
     
-    public var configureCell: ((T, RowInformation) -> Void)?
-    public var heightFor: (RowInformation -> CGFloat?)?
-    public var canRemove: (RowInformation -> Bool)?
-    public var canMove: (RowInformation -> Bool)?
-    public var canMoveTo: (RowMoveInformation -> Bool)?
-    public var didSelect: (RowInformation -> Void)?
-    public var didDeselect: (RowInformation -> Void)?
-    public var willDisplayCell: ((T, RowInformation) -> Void)?
-    public var didEndDisplayCell: ((T, RowInformation) -> Void)?
-    public var willRemove: (RowInformation -> UITableViewRowAnimation?)?
-    public var didRemove: (RowInformation -> Void)?
+    open var configureCell: ((T, RowInformation) -> Void)?
+    open var heightFor: ((RowInformation) -> CGFloat?)?
+    open var canRemove: ((RowInformation) -> Bool)?
+    open var canMove: ((RowInformation) -> Bool)?
+    open var canMoveTo: ((RowMoveInformation) -> Bool)?
+    open var didSelect: ((RowInformation) -> Void)?
+    open var didDeselect: ((RowInformation) -> Void)?
+    open var willDisplayCell: ((T, RowInformation) -> Void)?
+    open var didEndDisplayCell: ((T, RowInformation) -> Void)?
+    open var willRemove: ((RowInformation) -> UITableViewRowAnimation?)?
+    open var didRemove: ((RowInformation) -> Void)?
     
-    private var _reuseIdentifier: String?
-    public var reuseIdentifier: String {
+    fileprivate var _reuseIdentifier: String?
+    open var reuseIdentifier: String {
         set {
             _reuseIdentifier = newValue
         }
@@ -44,64 +44,64 @@ public class Row<T: UITableViewCell>: RowType {
         }
     }
     
-    public var height: CGFloat?
+    open var height: CGFloat?
 }
 
 extension Row: RowDelegateType {
-    func configureCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath) {
+    func configureCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         configureCell?(genericCell, (self, tableView, indexPath))
     }
     
-    func heightFor(tableView: UITableView, indexPath: NSIndexPath) -> CGFloat? {
+    func heightFor(_ tableView: UITableView, indexPath: IndexPath) -> CGFloat? {
         return heightFor?((self, tableView, indexPath)) ?? height
     }
     
-    func canEdit(tableView: UITableView, indexPath: NSIndexPath) -> Bool {
+    func canEdit(_ tableView: UITableView, indexPath: IndexPath) -> Bool {
         return canRemove(tableView, indexPath: indexPath) || canMove(tableView, indexPath: indexPath)
     }
     
-    func canRemove(tableView: UITableView, indexPath: NSIndexPath) -> Bool {
+    func canRemove(_ tableView: UITableView, indexPath: IndexPath) -> Bool {
         return canRemove?((self, tableView, indexPath)) ?? false
     }
     
-    func canMove(tableView: UITableView, indexPath: NSIndexPath) -> Bool {
+    func canMove(_ tableView: UITableView, indexPath: IndexPath) -> Bool {
         return canMove?((self, tableView, indexPath)) ?? false
     }
     
-    func canMoveTo(tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) -> Bool {
+    func canMoveTo(_ tableView: UITableView, sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) -> Bool {
         return canMoveTo?((self, tableView, sourceIndexPath, destinationIndexPath)) ?? false
     }
     
-    func didSelect(tableView: UITableView, indexPath: NSIndexPath) {
+    func didSelect(_ tableView: UITableView, indexPath: IndexPath) {
         didSelect?((self, tableView, indexPath))
     }
     
-    func didDeselect(tableView: UITableView, indexPath: NSIndexPath) {
+    func didDeselect(_ tableView: UITableView, indexPath: IndexPath) {
         didDeselect?((self, tableView, indexPath))
     }
     
-    func willDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath) {
+    func willDisplayCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         willDisplayCell?(genericCell, (self, tableView, indexPath))
     }
     
-    func didEndDisplayCell(tableView: UITableView, cell: UITableViewCell, indexPath: NSIndexPath) {
+    func didEndDisplayCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath) {
         guard let genericCell = cell as? T else {
             fatalError()
         }
         didEndDisplayCell?(genericCell, (self, tableView, indexPath))
     }
     
-    func willRemove(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewRowAnimation {
-        return willRemove?((self, tableView, indexPath)) ?? .Fade
+    func willRemove(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewRowAnimation {
+        return willRemove?((self, tableView, indexPath)) ?? .fade
     }
     
-    func didRemove(tableView: UITableView, indexPath: NSIndexPath) {
+    func didRemove(_ tableView: UITableView, indexPath: IndexPath) {
         didRemove?((self, tableView, indexPath))
     }
 }

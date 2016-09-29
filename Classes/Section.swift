@@ -8,15 +8,15 @@
 
 import UIKit
 
-public class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
-    public private(set) var rows: [RowType] = []
+open class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
+    open fileprivate(set) var rows: [RowType] = []
     
-    public var header: SectionHeaderFooterType?
-    public var footer: SectionHeaderFooterType?
+    open var header: SectionHeaderFooterType?
+    open var footer: SectionHeaderFooterType?
     
     public init() { }
     
-    public init(@noescape closure: (Section<HeaderType, FooterType> -> Void)) {
+    public init(closure: ((Section<HeaderType, FooterType>) -> Void)) {
         closure(self)
     }
 }
@@ -24,65 +24,65 @@ public class Section<HeaderType: UIView, FooterType: UIView>: SectionType {
 extension Section {
     public var rowCount: Int { return rows.count }
     
-    public func rowFor(row: Int) -> RowType {
+    public func rowFor(_ row: Int) -> RowType {
         return rows[row]
     }
     
-    public func rowFor(indexPath: NSIndexPath) -> RowType {
-        return rowFor(indexPath.row)
+    public func rowFor(_ indexPath: IndexPath) -> RowType {
+        return rowFor((indexPath as NSIndexPath).row)
     }
     
-    public func removeRow(index: Int) -> RowType {
-        return rows.removeAtIndex(index)
+    @discardableResult public func removeRow(_ index: Int) -> RowType {
+        return rows.remove(at: index)
     }
     
-    public func insertRow(row: RowType, index: Int) {
-        rows.insert(row, atIndex: index)
+    public func insertRow(_ row: RowType, index: Int) {
+        rows.insert(row, at: index)
     }
 }
 
 extension Section {
-    public func addRow(row: RowType) -> Self {
+    @discardableResult public func add(row: RowType) -> Self {
         rows.append(row)
         return self
     }
     
-    public func addRows(rows: [RowType]) -> Self {
-        self.rows.appendContentsOf(rows)
+    @discardableResult public func add(rows: [RowType]) -> Self {
+        self.rows.append(contentsOf: rows)
         return self
     }
     
-    public func createRow<T>(@noescape closure: (Row<T> -> Void)) -> Self {
-        return addRow(Row<T>() { closure($0) })
+    @discardableResult public func createRow<T>(_ closure: ((Row<T>) -> Void)) -> Self {
+        return add(row: Row<T>() { closure($0) })
     }
     
-    public func createRows<T, E>(elements: [E], @noescape closure: ((E, Row<T>) -> Void)) -> Self {
-        return addRows(
+    @discardableResult public func createRows<T, E>(for elements: [E], closure: ((E, Row<T>) -> Void)) -> Self {
+        return add(rows:
             elements.map { element -> Row<T> in
                 return Row<T>() { closure(element, $0) }
                 }.map { $0 as RowType }
         )
     }
     
-    public func createRows<T>(count: UInt, @noescape closure: ((UInt, Row<T>) -> Void)) -> Self {
-        return createRows([UInt](0..<count), closure: closure)
+    @discardableResult public func createRows<T>(for count: UInt, closure: ((UInt, Row<T>) -> Void)) -> Self {
+        return createRows(for: [UInt](0..<count), closure: closure)
     }
     
-    public func createHeader(@noescape closure: (SectionHeaderFooter<HeaderType> -> Void)) -> Self {
+    @discardableResult public func createHeader(_ closure: ((SectionHeaderFooter<HeaderType>) -> Void)) -> Self {
         return createHeaderFooter { (header: SectionHeaderFooter<HeaderType>) in
             self.header = header
             closure(header)
         }
     }
     
-    public func createFooter(@noescape closure: (SectionHeaderFooter<FooterType> -> Void)) -> Self {
+    @discardableResult public func createFooter(_ closure: ((SectionHeaderFooter<FooterType>) -> Void)) -> Self {
         return createHeaderFooter { (footer: SectionHeaderFooter<FooterType>) in
             self.footer = footer
             closure(footer)
         }
     }
     
-    private func createHeaderFooter<T>(@noescape closure:(SectionHeaderFooter<T> -> Void)) -> Self {
+    @discardableResult fileprivate func createHeaderFooter<T>(_ closure: ((SectionHeaderFooter<T>) -> Void)) -> Self {
         closure(SectionHeaderFooter<T>())
         return self
     }

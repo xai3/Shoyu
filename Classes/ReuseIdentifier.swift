@@ -14,7 +14,7 @@ protocol ReuseIdentifierType {
 
 extension ReuseIdentifierType {
     var identifier: String {
-        return String(self.dynamicType).componentsSeparatedByString(".").last ?? ""
+        return String(describing: type(of: self)).components(separatedBy: ".").last ?? ""
     }
 }
 

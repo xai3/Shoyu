@@ -15,8 +15,8 @@ public protocol SectionHeaderFooterType {
 }
 
 protocol SectionHeaderFooterDelegateType {
-    func configureView(tableView: UITableView, view: UIView, section: Int)
-    func heightFor(tableView: UITableView, section: Int) -> CGFloat?
-    func titleFor(tableView: UITableView, section: Int) -> String?
-    func viewFor(tableView: UITableView, section: Int) -> UIView?
+    func configureView(_ tableView: UITableView, view: UIView, section: Int)
+    func heightFor(_ tableView: UITableView, section: Int) -> CGFloat?
+    func titleFor(_ tableView: UITableView, section: Int) -> String?
+    func viewFor(_ tableView: UITableView, section: Int) -> UIView?
 }
