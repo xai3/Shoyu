@@ -92,7 +92,7 @@ extension Row: RowDelegateType {
     
     func didEndDisplayCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath) {
         guard let genericCell = cell as? T else {
-            fatalError()
+            return
         }
         didEndDisplayCell?(genericCell, (self, tableView, indexPath))
     }
