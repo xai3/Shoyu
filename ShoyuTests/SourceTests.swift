@@ -22,11 +22,11 @@ class SourceTests: XCTestCase {
         let source = Source().add(section: Section())
         XCTAssertEqual(source.sections.count, 1)
         
-        _ = source.add(section: Section()).add(section: Section())
+        source.add(section: Section()).add(section: Section())
         XCTAssertEqual(source.sections.count, 3)
         
         // Method chain
-        _ = source.add(section: Section()).add(section: Section()).add(section: Section())
+        source.add(section: Section()).add(section: Section()).add(section: Section())
         XCTAssertEqual(source.sections.count, 6)
     }
     
@@ -35,7 +35,7 @@ class SourceTests: XCTestCase {
         XCTAssertEqual(source.sections.count, 2)
         
         // Method chain
-        _ = source.add(sections: [Section()]).add(sections: [Section(), Section()])
+        source.add(sections: [Section()]).add(sections: [Section(), Section()])
         XCTAssertEqual(source.sections.count, 5)
     }
     
@@ -43,11 +43,11 @@ class SourceTests: XCTestCase {
         let source = Source().createSection { _ in }
         XCTAssertEqual(source.sections.count, 1)
         
-        _ = source.createSection { _ in }.createSection { _ in }
+        source.createSection { _ in }.createSection { _ in }
         XCTAssertEqual(source.sections.count, 3)
         
         // Method chain
-        _ = source.createSection { _ in }.createSection { _ in }
+        source.createSection { _ in }.createSection { _ in }
         XCTAssertEqual(source.sections.count, 5)
     }
     
@@ -56,12 +56,12 @@ class SourceTests: XCTestCase {
         
         // Count
         let count = UInt(2)
-        _ = source.createSections(for: count) { _ in }
+        source.createSections(for: count) { _ in }
         XCTAssertEqual(source.sections.count, Int(count))
         
         // Items
         let items = [1, 2, 3]
-        _ = source.createSections(for: items) { _ in }
+        source.createSections(for: items) { _ in }
         XCTAssertEqual(source.sections.count, Int(count) + items.count)
     }
     
@@ -71,14 +71,14 @@ class SourceTests: XCTestCase {
         let section1 = Section()
         let row1_1 = Row()
         let row1_2 = Row()
-        _ = section1.add(rows: [row1_1, row1_2])
+        section1.add(rows: [row1_1, row1_2])
         
         let section2 = Section()
         let row2_1 = Row()
         let row2_2 = Row()
-        _ = section2.add(rows: [row2_1, row2_2])
+        section2.add(rows: [row2_1, row2_2])
         
-        _ = source.add(sections: [section1, section2])
+        source.add(sections: [section1, section2])
         
         XCTAssert(source.section(for: 0) as! Section === section1)
         XCTAssert(source.section(for: 1) as! Section === section2)
@@ -99,8 +99,8 @@ class SourceTests: XCTestCase {
         let sectionCount = 10
         let rowCount = 10
         let source = Source { source in
-            _ = source.createSections(for: UInt(sectionCount)) { sectionIndex, section in
-                _ = section.createRows(for: UInt(rowCount)) { rowIndex, row in
+            source.createSections(for: UInt(sectionCount)) { sectionIndex, section in
+                section.createRows(for: UInt(rowCount)) { rowIndex, row in
                     row.reuseIdentifier = reuseIdentifierFrom(section: Int(sectionIndex), row: Int(rowIndex))
                 }
             }
@@ -122,8 +122,8 @@ class SourceTests: XCTestCase {
         let sectionLimit = UInt(10)
         
         let source = Source() { source in
-            _ = source.createSections(for: sectionLimit) { _, section in
-                _ = section.createRows(for: rowLimit) { _ in }
+            source.createSections(for: sectionLimit) { _, section in
+                section.createRows(for: rowLimit) { _ in }
             }
         }
         
@@ -143,8 +143,8 @@ class SourceTests: XCTestCase {
         
         let source = Source()
         self.measure {
-            _ = source.createSections(for: 100) { (_, section: Section<HeaderView, FooterView>) in
-                _ = section
+            source.createSections(for: 100) { (_, section: Section<HeaderView, FooterView>) in
+                section
                     .createHeader { header in }
                     .createFooter { footer in }
                     .createRows(for: 1000) { (_, row: Row<Cell>) in

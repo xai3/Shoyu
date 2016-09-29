@@ -26,21 +26,21 @@ open class Source: NSObject {
         return sections.count > (indexPath as NSIndexPath).section && sections[(indexPath as NSIndexPath).section].rows.count > (indexPath as NSIndexPath).row
     }
     
-    open func add(section: SectionType) -> Self {
+    @discardableResult open func add(section: SectionType) -> Self {
         sections.append(section)
         return self
     }
     
-    open func add(sections: [SectionType]) -> Self {
+    @discardableResult open func add(sections: [SectionType]) -> Self {
         self.sections.append(contentsOf: sections)
         return self
     }
     
-    open func createSection<H, F>(closure: ((Section<H, F>) -> Void)) -> Self {
+    @discardableResult open func createSection<H, F>(closure: ((Section<H, F>) -> Void)) -> Self {
         return add(section: Section<H, F>() { closure($0) })
     }
     
-    open func createSections<H, F, E>(for elements: [E], closure: ((E, Section<H, F>) -> Void)) -> Self {
+    @discardableResult open func createSections<H, F, E>(for elements: [E], closure: ((E, Section<H, F>) -> Void)) -> Self {
         return add(sections:
             elements.map { element -> Section<H, F> in
                 return Section<H, F>() { closure(element, $0) }
@@ -48,7 +48,7 @@ open class Source: NSObject {
         )
     }
     
-    open func createSections<H, F>(for count: UInt, closure: ((UInt, Section<H, F>) -> Void)) -> Self {
+    @discardableResult open func createSections<H, F>(for count: UInt, closure: ((UInt, Section<H, F>) -> Void)) -> Self {
         return createSections(for: [UInt](0..<count), closure: closure)
     }
     
@@ -154,7 +154,7 @@ extension Source: UITableViewDataSource {
         
         switch editingStyle {
         case .delete:
-            _ = self.section(for: indexPath).removeRow((indexPath as NSIndexPath).row)
+            self.section(for: indexPath).removeRow((indexPath as NSIndexPath).row)
             let animation = delegate.willRemove(tableView, indexPath: indexPath)
             tableView.deleteRows(at: [indexPath], with: animation)
             delegate.didRemove(tableView, indexPath: indexPath)

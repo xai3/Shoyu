@@ -22,14 +22,14 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.source = Source().createSection { (section: Section<HeaderTableViewCell, FooterTableViewCell>) in
-            let _ = section.createHeader { header in
+            section.createHeader { header in
                 header.reuseIdentifier = "Header"
                 header.height = 32
                 header.configureView = { headerCell, _ in
                     headerCell.contentView.backgroundColor = UIColor.blue
                 }
             }
-            .createFooter { footer in
+            section.createFooter { footer in
                 footer.createView = { [weak self] _ in
                     return self?.createViewForFooterCell()
                 }
@@ -43,7 +43,7 @@ class TableViewController: UIViewController {
                     return 32
                 }
             }
-            .createRows(for: members) { (member: Member, row: Row<DefaultTableViewCell>) in
+            section.createRows(for: members) { (member: Member, row: Row<DefaultTableViewCell>) in
                 row.height = 52
                 row.configureCell = configureMemberCell(member: member)
                 row.didSelect = didSelectMember(member: member)
@@ -64,7 +64,7 @@ class TableViewController: UIViewController {
                     print(event.row)
                 }
             }
-            .createRows(for: 5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
+            section.createRows(for: 5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
                 row.heightFor = { _ -> CGFloat? in
                     return 44
                 }

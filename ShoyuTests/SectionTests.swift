@@ -25,35 +25,35 @@ class SectionTests: XCTestCase {
     
     func testAddMultiRow() {
         let section = Section()
-        _ = section.add(row: Row()).add(row: Row())
+        section.add(row: Row()).add(row: Row())
         XCTAssertEqual(section.rows.count, 2)
         
         // Method chain
-        _ = section.add(row: Row()).add(row: Row()).add(row: Row())
+        section.add(row: Row()).add(row: Row()).add(row: Row())
         XCTAssertEqual(section.rows.count, 5)
     }
     
     func testAddRows() {
         let section = Section()
-        _ = section.add(rows: [Row(), Row()])
+        section.add(rows: [Row(), Row()])
         XCTAssertEqual(section.rows.count, 2)
         
         // Method chain
-        _ = section.add(rows: [Row(), Row(), Row()])
+        section.add(rows: [Row(), Row(), Row()])
         XCTAssertEqual(section.rows.count, 5)
     }
     
     func testCreateSingleRow() {
         let section = Section() { section in
-            _ = section.createRow { _ in }
+            section.createRow { _ in }
         }
         XCTAssertEqual(section.rows.count, 1)
     }
     
     func testCreateMultiRow() {
         let section = Section() { section in
-            _ = section.createRow { _ in }
-            _ = section.createRow { _ in }
+            section.createRow { _ in }
+            section.createRow { _ in }
         }
         XCTAssertEqual(section.rows.count, 2)
     }
@@ -61,7 +61,7 @@ class SectionTests: XCTestCase {
     func testCreateCountRows() {
         let count = UInt(10)
         let section = Section() { section in
-            _ = section.createRows(for: count) { _ in }
+            section.createRows(for: count) { _ in }
         }
         XCTAssertEqual(section.rows.count, Int(count))
     }
@@ -69,29 +69,29 @@ class SectionTests: XCTestCase {
     func testCreateMapArrayRows() {
         let items = [1, 2, 3]
         let section = Section() { section in
-            _ = section.createRows(for: items) { _ in }
+            section.createRows(for: items) { _ in }
         }
         XCTAssertEqual(section.rows.count, items.count)
     }
     
     func testCreateHeader() {
         let section = Section() { section in
-            _ = section.createHeader { _ in }
+            section.createHeader { _ in }
         }
         XCTAssertNotNil(section.header)
     }
     
     func testCreateFooter() {
         let section = Section() { section in
-            _ = section.createFooter { _ in }
+            section.createFooter { _ in }
         }
         XCTAssertNotNil(section.footer)
     }
     
     func testCreateHeaderFooter() {
         let section = Section() { section in
-            _ = section.createHeader { _ in }
-            _ = section.createFooter { _ in }
+            section.createHeader { _ in }
+            section.createFooter { _ in }
         }
         XCTAssertNotNil(section.header)
         XCTAssertNotNil(section.footer)
@@ -99,12 +99,12 @@ class SectionTests: XCTestCase {
     
     func testCreateHeaderGeneric() {
         let section = Section() { (section: Section<UILabel, UIButton>) in
-            _ = section.createHeader { header -> Void in
+            section.createHeader { header -> Void in
                 header.configureView = { label, info in
                     label.text = "label"
                 }
             }
-            _ = section.createFooter { footer -> Void in
+            section.createFooter { footer -> Void in
                 footer.configureView = { button, info in
                     button.titleLabel!.text = "button"
                 }
@@ -118,7 +118,7 @@ class SectionTests: XCTestCase {
         let count = UInt(2)
         let items = [1, 2, 3]
         let section = Section() { section in
-            _ = section
+            section
                 .createRow { _ in }
                 .createRows(for: count) { _ in }
                 .createRows(for: items) { _ in }
@@ -133,7 +133,7 @@ class SectionTests: XCTestCase {
     func testRemoveRow() {
         let count = 10
         let section = Section() { section in
-            _ = section.createRows(for: UInt(count)) { index, row in
+            section.createRows(for: UInt(count)) { index, row in
                 row.reuseIdentifier = String(index)
             }
         }
@@ -155,7 +155,7 @@ class SectionTests: XCTestCase {
     func testInsertRow() {
         let count = 10
         let section = Section() { section in
-            _ = section.createRows(for: UInt(count)) { _, _ in }
+            section.createRows(for: UInt(count)) { _, _ in }
         }
         XCTAssertEqual(section.rowCount, count)
         
@@ -176,7 +176,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.heightFor(UITableView(), section: 0), nil)
         
         // Constant
-        _ = section
+        section
             .createHeader { header in
                 header.height = 10
             }
@@ -187,7 +187,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.heightFor(UITableView(), section: 0), 11)
         
         // Configure height
-        _ = section
+        section
             .createHeader { header in
                 header.heightFor = { _ -> CGFloat? in
                     return 20
@@ -202,7 +202,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.heightFor(UITableView(), section: 0), 21)
         
         // Configure nil height
-        _ = section
+        section
             .createHeader { header in
                 header.height = 30
                 header.heightFor = { _ -> CGFloat? in
@@ -232,7 +232,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(UITableView(), section: 0), nil)
         
         // Constant
-        _ = section
+        section
             .createHeader { header in
                 header.title = constantHeaderTitle
             }.createFooter { footer in
@@ -242,7 +242,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(UITableView(), section: 0), constantFooterTitle)
         
         // Title for
-        _ = section
+        section
             .createHeader { header in
                 header.titleFor = { _ -> String? in
                     return variableHeaderTitle
@@ -257,7 +257,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(UITableView(), section: 0), variableFooterTitle)
         
         // Both
-        _ = section
+        section
             .createHeader { header in
                 header.title = constantHeaderTitle
                 header.titleFor = { _ -> String? in
@@ -274,7 +274,7 @@ class SectionTests: XCTestCase {
         XCTAssertEqual((section.footer as? SectionHeaderFooterDelegateType)?.titleFor(UITableView(), section: 0), variableFooterTitle)
         
         // Title for nil
-        _ = section
+        section
             .createHeader { header in
                 header.title = constantHeaderTitle
                 header.titleFor = { _ -> String? in

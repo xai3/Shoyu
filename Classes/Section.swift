@@ -32,7 +32,7 @@ extension Section {
         return rowFor((indexPath as NSIndexPath).row)
     }
     
-    public func removeRow(_ index: Int) -> RowType {
+    @discardableResult public func removeRow(_ index: Int) -> RowType {
         return rows.remove(at: index)
     }
     
@@ -42,21 +42,21 @@ extension Section {
 }
 
 extension Section {
-    public func add(row: RowType) -> Self {
+    @discardableResult public func add(row: RowType) -> Self {
         rows.append(row)
         return self
     }
     
-    public func add(rows: [RowType]) -> Self {
+    @discardableResult public func add(rows: [RowType]) -> Self {
         self.rows.append(contentsOf: rows)
         return self
     }
     
-    public func createRow<T>(_ closure: ((Row<T>) -> Void)) -> Self {
+    @discardableResult public func createRow<T>(_ closure: ((Row<T>) -> Void)) -> Self {
         return add(row: Row<T>() { closure($0) })
     }
     
-    public func createRows<T, E>(for elements: [E], closure: ((E, Row<T>) -> Void)) -> Self {
+    @discardableResult public func createRows<T, E>(for elements: [E], closure: ((E, Row<T>) -> Void)) -> Self {
         return add(rows:
             elements.map { element -> Row<T> in
                 return Row<T>() { closure(element, $0) }
@@ -64,25 +64,25 @@ extension Section {
         )
     }
     
-    public func createRows<T>(for count: UInt, closure: ((UInt, Row<T>) -> Void)) -> Self {
+    @discardableResult public func createRows<T>(for count: UInt, closure: ((UInt, Row<T>) -> Void)) -> Self {
         return createRows(for: [UInt](0..<count), closure: closure)
     }
     
-    public func createHeader(_ closure: ((SectionHeaderFooter<HeaderType>) -> Void)) -> Self {
+    @discardableResult public func createHeader(_ closure: ((SectionHeaderFooter<HeaderType>) -> Void)) -> Self {
         return createHeaderFooter { (header: SectionHeaderFooter<HeaderType>) in
             self.header = header
             closure(header)
         }
     }
     
-    public func createFooter(_ closure: ((SectionHeaderFooter<FooterType>) -> Void)) -> Self {
+    @discardableResult public func createFooter(_ closure: ((SectionHeaderFooter<FooterType>) -> Void)) -> Self {
         return createHeaderFooter { (footer: SectionHeaderFooter<FooterType>) in
             self.footer = footer
             closure(footer)
         }
     }
     
-    fileprivate func createHeaderFooter<T>(_ closure: ((SectionHeaderFooter<T>) -> Void)) -> Self {
+    @discardableResult fileprivate func createHeaderFooter<T>(_ closure: ((SectionHeaderFooter<T>) -> Void)) -> Self {
         closure(SectionHeaderFooter<T>())
         return self
     }
