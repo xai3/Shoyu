@@ -16,6 +16,7 @@ public protocol RowType {
 protocol RowDelegateType {
     func configureCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath)
     func heightFor(_ tableView: UITableView, indexPath: IndexPath) -> CGFloat?
+    func estimatedHeightFor(_ tableView: UITableView, indexPath: IndexPath) -> CGFloat?
     func canEdit(_ tableView: UITableView, indexPath: IndexPath) -> Bool
     func canRemove(_ tableView: UITableView, indexPath: IndexPath) -> Bool
     func canMove(_ tableView: UITableView, indexPath: IndexPath) -> Bool

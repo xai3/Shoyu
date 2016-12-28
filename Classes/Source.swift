@@ -177,6 +177,15 @@ extension Source: UITableViewDelegate {
         }
         return tableView.rowHeight
     }
+    
+    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let row = self.section(for: indexPath).rowFor(indexPath)
+        if let delegate = row as? RowDelegateType,
+            let estimatedHeight = delegate.estimatedHeightFor(tableView, indexPath: indexPath) {
+            return estimatedHeight
+        }
+        return tableView.estimatedRowHeight
+    }
 
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let header = self.section(for: section).header else {

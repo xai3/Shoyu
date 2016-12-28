@@ -20,6 +20,7 @@ open class Row<T: UITableViewCell>: RowType {
     
     open var configureCell: ((T, RowInformation) -> Void)?
     open var heightFor: ((RowInformation) -> CGFloat?)?
+    open var estimatedHeightFor: ((RowInformation) -> CGFloat?)?
     open var canRemove: ((RowInformation) -> Bool)?
     open var canMove: ((RowInformation) -> Bool)?
     open var canMoveTo: ((RowMoveInformation) -> Bool)?
@@ -45,6 +46,7 @@ open class Row<T: UITableViewCell>: RowType {
     }
     
     open var height: CGFloat?
+    open var estimatedHeight: CGFloat?
 }
 
 extension Row: RowDelegateType {
@@ -57,6 +59,10 @@ extension Row: RowDelegateType {
     
     func heightFor(_ tableView: UITableView, indexPath: IndexPath) -> CGFloat? {
         return heightFor?((self, tableView, indexPath)) ?? height
+    }
+    
+    func estimatedHeightFor(_ tableView: UITableView, indexPath: IndexPath) -> CGFloat? {
+        return estimatedHeightFor?((self, tableView, indexPath)) ?? estimatedHeight
     }
     
     func canEdit(_ tableView: UITableView, indexPath: IndexPath) -> Bool {

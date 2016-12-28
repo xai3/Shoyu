@@ -51,6 +51,24 @@ class RowTests: XCTestCase {
         XCTAssertEqual(height, 10)
     }
     
+    func testEstimatedHeightFor() {
+        let row = Row()
+        
+        // Initialezed
+        XCTAssertEqual(row.estimatedHeightFor(UITableView(), indexPath: IndexPath()), nil)
+        
+        // Constant
+        row.estimatedHeight = 15
+        XCTAssertEqual(row.estimatedHeightFor(UITableView(), indexPath: IndexPath()), 15)
+        
+        // Configure
+        row.estimatedHeightFor = { _ -> CGFloat? in
+            return 30
+        }
+        let height = row.estimatedHeightFor(UITableView(), indexPath: IndexPath())
+        XCTAssertEqual(height, 30)
+    }
+    
     func testDidSelect() {
         var called = false
         let row = Row()
