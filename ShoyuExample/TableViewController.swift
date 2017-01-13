@@ -13,10 +13,12 @@ class TableViewController: UIViewController {
     @IBOutlet weak var tableView: TableView!
     
     let members = [
-        Member(firstName: "N", lastName: "Takahiro"),
-        Member(firstName: "H", lastName: "Naoki"),
-        Member(firstName: "K", lastName: "Kotaro"),
-        Member(firstName: "A", lastName: "Yuki"),
+        Member(firstName: "Hamada", lastName: "Hiro"),
+        Member(firstName: "Hamada", lastName: "Tadashi"),
+        Member(firstName: "Tamago", lastName: "GoGo"),
+        Member(firstName: "", lastName: "Wasabi"),
+        Member(firstName: "Lemon", lastName: "Honey"),
+        Member(firstName: "", lastName: "Fred"),
     ]
     
     override func viewDidLoad() {
@@ -24,6 +26,7 @@ class TableViewController: UIViewController {
         tableView.source = Source().createSection { (section: Section<HeaderTableViewCell, FooterTableViewCell>) in
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
+                header.title = "Big Hero 6"
                 header.height = 32
                 header.configureView = { headerCell, _ in
                     headerCell.contentView.backgroundColor = UIColor.blue
@@ -47,7 +50,11 @@ class TableViewController: UIViewController {
                 row.height = 52
                 row.configureCell = configureMemberCell(member: member)
                 row.didSelect = didSelectMember(member: member)
-                
+            }
+            section.createRows(for: 5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
+                row.heightFor = { _ -> CGFloat? in
+                    return 44
+                }
                 row.canRemove = { _ -> Bool in
                     return true
                 }
@@ -62,11 +69,6 @@ class TableViewController: UIViewController {
                 }
                 row.didRemove = { event in
                     print(event.row)
-                }
-            }
-            section.createRows(for: 5) { (index: UInt, row: Row<DefaultTableViewCell>) -> Void in
-                row.heightFor = { _ -> CGFloat? in
-                    return 44
                 }
                 row.configureCell = configureCountCell(index: index)
             }
