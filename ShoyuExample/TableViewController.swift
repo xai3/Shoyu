@@ -26,7 +26,6 @@ class TableViewController: UIViewController {
         tableView.source = Source().createSection { (section: Section<HeaderTableViewCell, FooterTableViewCell>) in
             section.createHeader { header in
                 header.reuseIdentifier = "Header"
-                header.title = "Big Hero 6"
                 header.height = 32
                 header.configureView = { headerCell, _ in
                     headerCell.contentView.backgroundColor = UIColor.blue
