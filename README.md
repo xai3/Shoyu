@@ -18,19 +18,19 @@ Use `createSection` and `createRow`.
 
 ``` swift
 tableView.source = Source() { source in
-    
+
     // Create section
     source.createSection { section in
-        
+
         // Create row
         section.createRow { row in
-            
+
             // Setting reuse identifier
             row.reuseIdentifier = "Cell"
-            
+
             // Setting fixed height.
             row.height = 52
-            
+
             // Configuring handler for cell.
             row.configureCell = { cell, _ in
                 cell.textLabel?.text = "row 1"
@@ -48,11 +48,12 @@ Use `createRows`.
 
 ``` swift
 let members = [
-    Member(firstName: "John", lastName: "Paterson"),
-    Member(firstName: "Matt", lastName: "Gray"),
-    Member(firstName: "Jennifer", lastName: "Hart"),
-    Member(firstName: "Katherine", lastName: "Nash"),
-    Member(firstName: "Diane", lastName: "Nash"),
+    Member(firstName: "Hamada", lastName: "Hiro"),
+    Member(firstName: "Hamada", lastName: "Tadashi"),
+    Member(firstName: "Tamago", lastName: "GoGo"),
+    Member(firstName: "", lastName: "Wasabi"),
+    Member(firstName: "Lemon", lastName: "Honey"),
+    Member(firstName: "", lastName: "Fred"),
 ]
 
 tableView.source = Source() { source in
@@ -74,18 +75,18 @@ Use `createHeader` and `createFooter`.
 ``` swift
 tableView.source = Source() { source in
    source.createSection { section in
-        
+
         // Create header.
         section.createHeader { header in
             // Setting title.
-            header.title = "Header"
-            
+            header.title = "Big Hero 6"
+
             header.height = 22
             header.configureView = { view, _ in
                 view.backgroundColor = UIColor.lightGrayColor()
             }
         }
-        
+
         // Create footer.
         section.createFooter { footer in
           ...
@@ -133,17 +134,17 @@ section.createRows(members) { (member, row: Row<MemberTableViewCell>) in
 
 ```
 section.createRow { row in
-    
+
     // Configuring handler for height.
     row.heightFor = { _ -> CGFloat? in
         return 52
     }
-    
+
     // Configuring handler for cell.
     row.configureCell = { cell, _ in
         cell.textLabel?.text = "row"
     }
-    
+
     // Event handler for when cell is selected.
     row.didSelect = { _ in
         print("row is selected.")
