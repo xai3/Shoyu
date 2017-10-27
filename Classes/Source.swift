@@ -188,17 +188,33 @@ extension Source: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        guard let header = self.section(for: section).header else {
-            return 0
+        let defaultHeight: CGFloat
+        switch tableView.style {
+        case .plain:
+            defaultHeight = 0
+        case .grouped:
+            defaultHeight = tableView.sectionHeaderHeight
         }
-        return sectionHeaderFooterHeightFor(header, tableView: tableView, section: section) ?? tableView.sectionHeaderHeight
+        
+        guard let header = self.section(for: section).header else {
+            return defaultHeight
+        }
+        return sectionHeaderFooterHeightFor(header, tableView: tableView, section: section) ?? defaultHeight
     }
 
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        guard let footer = self.section(for: section).footer else {
-            return 0
+        let defaultHeight: CGFloat
+        switch tableView.style {
+        case .plain:
+            defaultHeight = 0
+        case .grouped:
+            defaultHeight = tableView.sectionFooterHeight
         }
-        return sectionHeaderFooterHeightFor(footer, tableView: tableView, section: section) ?? tableView.sectionFooterHeight
+        
+        guard let footer = self.section(for: section).footer else {
+            return defaultHeight
+        }
+        return sectionHeaderFooterHeightFor(footer, tableView: tableView, section: section) ?? defaultHeight
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
