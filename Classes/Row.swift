@@ -40,8 +40,8 @@ open class Row<T: UITableViewCell>: RowType {
             if let identifier = _reuseIdentifier {
                 return identifier
             }
-            let identifier = T() as ReuseIdentifierType
-            return identifier.identifier
+            // user class name for reuseIdentifier
+            return NSStringFromClass(T.classForCoder())
         }
     }
     
