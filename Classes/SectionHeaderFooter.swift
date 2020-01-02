@@ -26,10 +26,8 @@ open class SectionHeaderFooter<Type: UIView>: SectionHeaderFooterType {
             if let identifier = _reuseIdentifier {
                 return identifier
             }
-            if let identifier = Type() as? ReuseIdentifierType {
-                return identifier.identifier
-            }
-            return nil
+            // user class name for reuseIdentifier
+            return NSStringFromClass(Type.classForCoder())
         }
     }
     

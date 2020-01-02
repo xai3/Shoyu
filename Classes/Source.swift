@@ -57,15 +57,15 @@ open class Source: NSObject {
 }
 
 public extension Source {
-    public func section(for section: Int) -> SectionType {
+    func section(for section: Int) -> SectionType {
         return sections[section]
     }
 
-    public func section(for indexPath: IndexPath) -> SectionType {
+    func section(for indexPath: IndexPath) -> SectionType {
         return self.section(for: (indexPath as NSIndexPath).section)
     }
 
-    public func moveRow(_ sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
+    func moveRow(_ sourceIndexPath: IndexPath, destinationIndexPath: IndexPath) {
         let row = self.section(for: sourceIndexPath).removeRow((sourceIndexPath as NSIndexPath).row)
         self.section(for: destinationIndexPath).insertRow(row, index: (destinationIndexPath as NSIndexPath).row)
     }
@@ -133,15 +133,13 @@ extension Source: UITableViewDataSource {
         return false
     }
 
-    @objc(tableView:editingStyleForRowAtIndexPath:)
-    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    public func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         guard let delegate = self.section(for: indexPath).rowFor(indexPath) as? RowDelegateType else {
             return .none
         }
         return delegate.canRemove(tableView, indexPath: indexPath) ? .delete : .none
     }
 
-    @objc(tableView:shouldIndentWhileEditingRowAtIndexPath:)
     public func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         guard let delegate = self.section(for: indexPath).rowFor(indexPath) as? RowDelegateType else {
             return false
@@ -149,7 +147,7 @@ extension Source: UITableViewDataSource {
         return delegate.canRemove(tableView, indexPath: indexPath)
     }
 
-    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let delegate = self.section(for: indexPath).rowFor(indexPath) as? RowDelegateType else {
             return
         }

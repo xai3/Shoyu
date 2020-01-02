@@ -28,7 +28,7 @@ open class Row<T: UITableViewCell>: RowType {
     open var didDeselect: ((RowInformation) -> Void)?
     open var willDisplayCell: ((T, RowInformation) -> Void)?
     open var didEndDisplayCell: ((T, RowInformation) -> Void)?
-    open var willRemove: ((RowInformation) -> UITableViewRowAnimation?)?
+    open var willRemove: ((RowInformation) -> UITableView.RowAnimation?)?
     open var didRemove: ((RowInformation) -> Void)?
     
     fileprivate var _reuseIdentifier: String?
@@ -40,8 +40,8 @@ open class Row<T: UITableViewCell>: RowType {
             if let identifier = _reuseIdentifier {
                 return identifier
             }
-            let identifier = T() as ReuseIdentifierType
-            return identifier.identifier
+            // user class name for reuseIdentifier
+            return NSStringFromClass(T.classForCoder())
         }
     }
     
@@ -103,7 +103,7 @@ extension Row: RowDelegateType {
         didEndDisplayCell?(genericCell, (self, tableView, indexPath))
     }
     
-    func willRemove(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewRowAnimation {
+    func willRemove(_ tableView: UITableView, indexPath: IndexPath) -> UITableView.RowAnimation {
         return willRemove?((self, tableView, indexPath)) ?? .fade
     }
     
