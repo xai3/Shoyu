@@ -61,7 +61,7 @@ class SectionTests: XCTestCase {
     func testCreateCountRows() {
         let count = UInt(10)
         let section = Section() { section in
-            section.createRows(for: count) { _ in }
+            section.createRows(for: count) { _,_  in }
         }
         XCTAssertEqual(section.rows.count, Int(count))
     }
@@ -69,7 +69,7 @@ class SectionTests: XCTestCase {
     func testCreateMapArrayRows() {
         let items = [1, 2, 3]
         let section = Section() { section in
-            section.createRows(for: items) { _ in }
+            section.createRows(for: items) { _,_  in }
         }
         XCTAssertEqual(section.rows.count, items.count)
     }
@@ -120,8 +120,8 @@ class SectionTests: XCTestCase {
         let section = Section() { section in
             section
                 .createRow { _ in }
-                .createRows(for: count) { _ in }
-                .createRows(for: items) { _ in }
+                .createRows(for: count) { _,_  in }
+                .createRows(for: items) { _,_  in }
                 .createHeader { _ in }
                 .createFooter { _ in }
         }

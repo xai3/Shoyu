@@ -56,12 +56,12 @@ class SourceTests: XCTestCase {
         
         // Count
         let count = UInt(2)
-        source.createSections(for: count) { _ in }
+        source.createSections(for: count) { _,_  in }
         XCTAssertEqual(source.sections.count, Int(count))
         
         // Items
         let items = [1, 2, 3]
-        source.createSections(for: items) { _ in }
+        source.createSections(for: items) { _,_  in }
         XCTAssertEqual(source.sections.count, Int(count) + items.count)
     }
     
@@ -123,7 +123,7 @@ class SourceTests: XCTestCase {
         
         let source = Source() { source in
             source.createSections(for: sectionLimit) { _, section in
-                section.createRows(for: rowLimit) { _ in }
+                section.createRows(for: rowLimit) { _,_  in }
             }
         }
         

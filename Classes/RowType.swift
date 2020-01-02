@@ -25,6 +25,6 @@ protocol RowDelegateType {
     func didDeselect(_ tableView: UITableView, indexPath: IndexPath)
     func willDisplayCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath)
     func didEndDisplayCell(_ tableView: UITableView, cell: UITableViewCell, indexPath: IndexPath)
-    func willRemove(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewRowAnimation
+    func willRemove(_ tableView: UITableView, indexPath: IndexPath) -> UITableView.RowAnimation
     func didRemove(_ tableView: UITableView, indexPath: IndexPath)
 }

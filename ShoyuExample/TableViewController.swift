@@ -63,7 +63,7 @@ class TableViewController: UIViewController {
                 row.canMoveTo = { event -> Bool in
                     return event.sourceIndexPath.section == event.destinationIndexPath.section
                 }
-                row.willRemove = { _ -> UITableViewRowAnimation? in
+                row.willRemove = { _ -> UITableView.RowAnimation? in
                     return .left
                 }
                 row.didRemove = { event in
